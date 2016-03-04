@@ -1,0 +1,50 @@
+<resources>
+    <string name="app_name">LenDen</string>
+    <string name="settings_txt">Settings</string>
+    <string name="pay_ask_text">PAY / ASK</string>
+    <string name="contacts_text">CONTACTS</string>
+    <string name="account_text">ANALYTICS</string>
+    <string-array name="contacts">
+        <item>Chetan Shenoy</item>
+        <item>Bainu Uthup</item>
+        <item>Sai Prasad</item>
+        <item>Nanda Kishore</item>
+        <item>Kartik Parameswaran</item>
+        <item>Amoz Tan</item>
+    </string-array>
+
+    <string-array name="recent_transactions">
+        <item>You paid Chetan Shenoy $40.0 for Brunch</item>
+        <item>You paid Babinu Uthup $20.0 for Dinner</item>
+        <item>You paid Chetan Shenoy $40.0 for Brunch</item>
+        <item>You paid Babinu Uthup $20.0 for Dinner</item>
+        <item>You paid Chetan Shenoy $40.0 for Brunch</item>
+        <item>You paid Babinu Uthup $20.0 for Dinner</item>
+        <item>You paid Chetan Shenoy $40.0 for Brunch</item>
+        <item>You paid Babinu Uthup $20.0 for Dinner</item>
+        <item>You paid Chetan Shenoy $40.0 for Brunch</item>
+        <item>You paid Babinu Uthup $20.0 for Dinner</item>
+    </string-array>
+
+    <string-array name="reminders">
+        <item>Ask Amoz Tan for money</item>
+        <item>Ask Kartik for money</item>
+        <item>Pay Electricity bill</item>
+        <item>Ask Kartik for money</item>
+        <item>Pay Electricity bill</item>
+    </string-array>
+
+    <string-array name="accounts">
+        <item>00112312300</item>
+        <item>00345612313</item>
+        <item>00012343434</item>
+    </string-array>
+
+    <string-array name="balances">
+        <item>12500</item>
+        <item>3000</item>
+        <item>2400</item>
+    </string-array>
+
+
+</resources>
