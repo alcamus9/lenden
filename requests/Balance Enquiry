@@ -1,0 +1,28 @@
+2) Balance Enquiry
+URL : http://103.14.161.149:12001/UpiService/upi/balanceEnquiry
+{
+"txnId": "112233110",
+"refId": "112233110",
+"payerAddress": "zeeshan.khan@mapp",
+"payerName": "zeeshan khan",
+"mobileNumber": "918626039723",
+"geoCode": "4515454545",
+"location": "Mumbai,Maharashtra",
+"ip": "172.16.50.32",
+"type": "mob",
+"id": "12345678987",
+"os": "android",
+"app": "MGSAPP",
+"capability": "487ER4ER7D4FD5FD8FE8RE",
+"accountAddressType": "ACCOUNT",
+"detailsJson": [{
+"ifsc": "MAPP0001865",
+"acType": "SAVINGS",
+"acNum": "45151545548799"
+}],
+"credType": "PIN",
+"credSubType": "MPIN",
+"credDataValue": "1.0|uFquVJFWbQ9/JMD/cHw9v4W/4qer2NNiWopBzQepPHzvUVY+a9LHuZIv3QmitvgmbP9SRhmDqk5Xjrbr1DOImxCUCbt4dJOON4k/vV2wAdXfbxjVEM3d6GYuxPOpj70B+qbnyDIcNa4XsG9oHfpHc2KJ9vO5CiOm6FJeIHtC+1uZQtoy4ei7s1MIgoSHpeljJxmhGS+u/ersQJTj/inp8ia5ua2xXyL66oHD8vJlxjlMLPovPnGz4YSJwMsHZ+q9N60ZZb58D2uxwqZ1eZnDW3CVc7vyJ33eX8Porhc1aHLXrozLhgiNAD6EdmKOelIDk5pEJRARnX0Dw3DLbDEPHQ==",
+"credDataCode": "NPCI",
+"credDataKi": "20150822"
+}

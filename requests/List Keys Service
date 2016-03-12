@@ -1,0 +1,16 @@
+List Keys Service
+URL: http://103.14.161.149:12001/UpiService/upi/listKeysService
+Headers:
+Authorization: "Basic bWdzdXBpOmFkbWluQDEyMw=="
+Content-type: "application/json"
+
+{
+"txnId":"9999999895430811281",
+"refId":"9999999895430811281",
+"txnType":"LIST_KEYS",
+"credType": "CHALLENGE",
+"credSubType": "INITIAL",
+"credDataCode": "NPCI",
+"credDataKi": "20150822",
+"credDataValue": ""
+}
