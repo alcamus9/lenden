@@ -4,6 +4,7 @@
     <string name="pay_ask_text">PAY / ASK</string>
     <string name="contacts_text">CONTACTS</string>
     <string name="account_text">ANALYTICS</string>
+    <string name="facebook_app_id">1685627565010724</string>
     <string-array name="contacts">
         <item>Chetan Shenoy</item>
         <item>Bainu Uthup</item>
