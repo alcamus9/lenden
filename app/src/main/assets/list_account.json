@@ -1,0 +1,25 @@
+{
+  "txnId": "456994",
+  "payerAddress": "rohit.p@mapp",
+  "payerName": "Rohit P",
+  "linkType": "MOBILE",
+  "linkValue": "9930993050",
+  "accountAddressType": "ACCOUNT",
+  "detailsJson": [
+    {
+      "ifsc": "MAPP",
+      "acType": "",
+      "acNum": "",
+      "iin": null,
+      "uIdNum": null,
+      "mmId": null,
+      "mobNum": null,
+      "cardNum": null
+    }
+  ],
+  "credType": "PIN",
+  "credSubType": "MPIN",
+  "credDataValue": "1.0|JvVOueTriuOhrjnU3r+4YYmP5KQcZekM9Bw4PQpsQE9wQ9mt/z6ShJ9nxNqHQiuzb0wRLnVQfamQ95M9lx2/L3IDotv9y/XwYbFGx6tGFBz+ZCbKbV6LQx+NQrux/EQXMatyKrFXCG2PfawCtFBJZJPu4a+mMm9ctzMZNPRMn7UOrEd7gkQY+2NIK7KNvMKmLoJQus/FTB9qWJNv6RrMnPiq91bqVOH+47mmX3QhN6VLMdVgJEubhcj5LT5seVijxRDCEo13p31/R61Vl3zu+KDMuJfL6NphJqT8fwbzCLzkYJEFMhgZHXok0/MBy4zsQGOTDMi4ZvldnuOIWOCFZw==",
+  "credDataCode": "NPCI",
+  "credDataKi": "20150822"
+}

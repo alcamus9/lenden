@@ -1,0 +1,10 @@
+{
+  "txnId":"9999999895430811281",
+  "refId":"9999999895430811281",
+  "txnType":"LIST_KEYS",
+  "credType": "CHALLENGE",
+  "credSubType": "INITIAL",
+  "credDataCode": "NPCI",
+  "credDataKi": "20150822",
+  "credDataValue": ""
+}

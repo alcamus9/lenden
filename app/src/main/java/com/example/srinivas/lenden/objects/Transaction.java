@@ -1,4 +1,4 @@
-package com.example.srinivas.lenden.com.example.srinivas.lenden.objects;
+package com.example.srinivas.lenden.objects;
 
 /**
  * Created by srinivas on 3/3/2016.

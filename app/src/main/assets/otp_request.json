@@ -1,0 +1,25 @@
+{
+  "txnId": "123555572123",
+  "payerAddress": "rohit.p@mapp",
+  "payerName": "rohit p",
+  "mobileNumber": "9664234682",
+  "geoCode": "19075984",
+  "location": "Mumbai,Maharashtra",
+  "ip": "142.12.26.52",
+  "type": "mob",
+  "id": "750c6be243f1c4b5c9912b95a5742fc5",
+  "os": "android",
+  "app": "com.mgs.mapp",
+  "capability": "5200000200010004000639292929292",
+  "accountAddressType": "ACCOUNT",
+  "detailsJson": [{
+    "ifsc": "MAPP100005",
+    "acType": "SAVINGS",
+    "acNum": "45151545548799",
+    "iin": "",
+    "uIdNum": "",
+    "mmId": "",
+    "mobNum": "",
+    "cardNum": ""
+  }]
+}

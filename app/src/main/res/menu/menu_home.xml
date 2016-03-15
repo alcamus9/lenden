@@ -5,16 +5,16 @@
     tools:context="com.example.srinivas.lenden.HomePageActivity">
 
     <item
-        android:id="@+id/action_pay"
+        android:id="@+id/add_contact"
+        android:icon="@drawable/ic_action_add_person"
         android:title="Pay and Ask"
-        app:showAsAction="always"
-        android:onClick="open_pay_window" />
+        app:showAsAction="always" />
 
     <item
-        android:id="@+id/action_contacts"
+        android:id="@+id/add_group"
+        android:icon="@drawable/ic_action_add_group"
         android:title="contacts"
-        app:showAsAction="always"
-        android:onClick="open_pay_window" />
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/action_settings"

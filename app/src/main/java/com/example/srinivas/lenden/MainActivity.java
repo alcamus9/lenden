@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.srinivas.lenden.requests.ReqPayRequest;
 import com.example.srinivas.testlogin.R;
 
 import java.util.HashMap;
@@ -58,8 +59,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void register_clicked(View view) {
         // start registration activity
-        Intent reg_activity = new Intent(this, RegistrationActivity.class);
-        startActivity(reg_activity);
+//        Intent reg_activity = new Intent(this, RegistrationActivity.class);
+//        startActivity(reg_activity);
+        ReqPayRequest req = new ReqPayRequest(getApplicationContext());
+        req.read_json();
     }
 
 }

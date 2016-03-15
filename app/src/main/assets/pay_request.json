@@ -1,0 +1,41 @@
+{
+  "txnId": "112233100",
+  "txnNote": "Bill Payment",
+  "refId" : "A45586699633324",
+  "custRefId" : "FG4563322",
+  "payerAddress": "zeeshan.khan@mapp",
+  "payerName": "zeeshan khan",
+  "mobileNumber": "8654589562",
+  "geoCode": "123466454",
+  "location": "Mumbai,Maharashtra",
+  "ip": "142.12.26.52",
+  "type": "mob",
+  "id": "154fer53dfdf",
+  "os": "android",
+  "app": "MGSAPP",
+  "capability": "453453d4f5343434df354",
+  "payerAcAddressType": "ACCOUNT",
+  "detailsJson": [
+    {
+      "ifsc": "MAPP0001865",
+      "acType": "SAVINGS",
+      "acNum": "45151545548799",
+      "iin": "",
+      "uIdNum": "",
+      "mmId": "",
+      "mobNum": "",
+      "cardNum": ""
+    }
+  ],
+  "credType": "PIN",
+  "credSubType": "MPIN",
+  "credDataValue": "1.0|qR6KlEcsAW6g3E//vOCIGoENyaTIFAGoIg6HOAAeH8R04WIjhEMSR3QcyhwkYhLYpzSX3NXvCv/LpUKdBb1sN49mfZ4mzqMdQvKIev/N3Th7Pe4WGGZvL88dlMrRas8SeFHyasVsAyVcmRy5Ib6YBgCfZrN8gRgCuNyNut7LXfmPYEvP/LIZDbWDBJ8kXx5R3MzrCQQcdwVSv2SIHeai6fbIbDDKOrhCqSbNxXIEnrxSCTO9bovvt6dof0LLzUZx1KVI5uhNL9RanqjMwdDKooH3uuw1aZ+dQmNaW8yshx7AX5aswo6s2BfHQFH/YG06NUK0vDCAlNAGh+jt5WpP0g==",
+  "credDataCode": "NPCI",
+  "credDataKi": "20150822",
+  "txnAmmount": "2000",
+  "payeeAddress": "rohit.patkar@mapp",
+  "payeeName": "Rohit Patkar",
+  "payeeType": "PERSON",
+  "payeeCode": "0000",
+  "IdentityId": "45785454"
+}
