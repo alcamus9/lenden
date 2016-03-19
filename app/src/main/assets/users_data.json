@@ -1,0 +1,79 @@
+{"users":
+	[{
+	"id": "1256437243",
+	"user_name": "sr",
+	"password": "weim",
+	"name": "Srinivas Sunkara",
+	"email_id": "srinivaskumar.sunkara@gmail.com",
+	"phone_number": "4129083283",
+	"fb_profile_id": "",
+	"contacts": ["1256437245", "1256437247", "1256437244"],
+	"groups": []
+	   },
+	{
+	"id": "1256437245",
+	"user_name": "sush",
+	"password": "shirl",
+	"name": "Sushant Choudhary",
+	"email_id": "sushant.choudhary@gmail.com",
+	"phone_number": "2167025309",
+	"fb_profile_id": "",
+	"contacts": ["1256437247", "1256437244", "1256437249", "1256437248"],
+	"groups": []
+	   },
+	{
+	"id": "1256437247",
+	"user_name": "chetan",
+	"password": "pass",
+	"name": "Chetan Shenoy",
+	"email_id": "test@gmail.com",
+	"phone_number": "4129083282",
+	"fb_profile_id": "",
+	"contacts": [],
+	"groups": []
+	   },
+	{
+	"id": "1256437249",
+	"user_name": "kartik",
+	"password": "pass2",
+	"name": "Kartik Parameswaran",
+	"email_id": "test2@gmail.com",
+	"phone_number": "4129083281",
+	"fb_profile_id": "",
+	"contacts": [],
+	"groups": []
+	   },
+	   {
+	"id": "1256437248",
+	"user_name": "nanda",
+	"password": "nanda",
+	"name": "Nanda Kishore",
+	"email_id": "test3@gmail.com",
+	"phone_number": "1233453661",
+	"fb_profile_id": "",
+	"contacts": [],
+	"groups": []
+	   },
+	   {
+	"id": "1256437246",
+	"user_name": "test",
+	"password": "pass3",
+	"name": "Test User",
+	"email_id": "test.user@gmail.com",
+	"phone_number": "4129083289",
+	"fb_profile_id": "",
+	"contacts": [],
+	"groups": []
+	   },
+	   {
+	"id": "1256437244",
+	"user_name": "test2",
+	"password": "pass4",
+	"name": "Test User 2",
+	"email_id": "test.user.2@gmail.com",
+	"phone_number": "4129083281",
+	"fb_profile_id": "",
+	"contacts": [],
+	"groups": []
+	   }
+]}

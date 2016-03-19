@@ -11,8 +11,46 @@ public class User {
     private long id;
     private String email;
     private String user_name;
-    private ArrayList<Integer> contacts;
-    private ArrayList<Integer> groups;
+    private ArrayList<Long> contacts;
+    private ArrayList<Long> groups;
+    private String fb_profile_id;
+    private String phone_number;
+    private String image_path;
+
+    public String getImage_path() {
+        return image_path;
+    }
+
+    public void setImage_path(String image_path) {
+        this.image_path = image_path;
+    }
+
+
+    public String getFb_profile_id() {
+        return fb_profile_id;
+    }
+
+    public void setFb_profile_id(String fb_profile_id) {
+        this.fb_profile_id = fb_profile_id;
+    }
+
+    public String getPhone_number() {
+        return phone_number;
+    }
+
+    public void setPhone_number(String phone_number) {
+        this.phone_number = phone_number;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    private String password;
 
     public String getName() {
         return name;
@@ -38,35 +76,59 @@ public class User {
         this.email = email;
     }
 
-    public String getUser_name() {
+    public String get_user_name() {
         return user_name;
     }
 
-    public void setUser_name(String user_name) {
+    public void set_user_name(String user_name) {
         this.user_name = user_name;
     }
 
-    public ArrayList<Integer> getContacts() {
+    public ArrayList<Long> getContacts() {
         return contacts;
     }
 
-    public void setContacts(ArrayList<Integer> contacts) {
+    public void setContacts(ArrayList<Long> contacts) {
         this.contacts = contacts;
     }
 
-    public ArrayList<Integer> getGroups() {
+    public ArrayList<Long> getGroups() {
         return groups;
     }
 
-    public void setGroups(ArrayList<Integer> groups) {
+    public void setGroups(ArrayList<Long> groups) {
         this.groups = groups;
     }
 
-    public void addContact(int id) {
-        this.contacts.add(id);
+    public void addContact(Integer id) {
+        this.contacts.add((long)id);
     }
 
-    public void addGroup(int id) {
-        this.groups.add(id);
+    public void addGroup(Integer id) {
+        this.groups.add((long)id);
     }
+
+    public User(Long id, String user_name, String password, String name, String email_d,
+                String phone_number, String fb_profile_id, ArrayList<Long> contacts,
+                ArrayList<Long> groups) {
+        this.id = id;
+        this.user_name = user_name;
+        this.password = password;
+        this.name = name;
+        this.email = email_d;
+        this.phone_number = phone_number;
+        this.fb_profile_id = fb_profile_id;
+        this.contacts = contacts;
+        this.groups = groups;
+    }
+
+    public User(Long id, String user_name, String name, String email_d,
+                String phone_number) {
+        this.id = id;
+        this.user_name = user_name;
+        this.name = name;
+        this.email = email_d;
+        this.phone_number = phone_number;
+    }
+
 }

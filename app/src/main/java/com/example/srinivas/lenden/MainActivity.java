@@ -9,6 +9,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.srinivas.lenden.dbrequests.AuthDBRequest;
+import com.example.srinivas.lenden.dbrequests.ContactDetailsRequest;
+import com.example.srinivas.lenden.dbrequests.TransactionsRequest;
+import com.example.srinivas.lenden.dbrequests.UserDetailsRequest;
+import com.example.srinivas.lenden.objects.Transaction;
+import com.example.srinivas.lenden.objects.User;
+import com.example.srinivas.lenden.requests.AsyncRequestListener;
 import com.example.srinivas.lenden.requests.ReqPayRequest;
 import com.example.srinivas.testlogin.R;
 import com.facebook.AccessToken;
@@ -21,13 +28,18 @@ import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AsyncRequestListener {
 
     HashMap<String, String> password_ref = new HashMap<String, String>();
     EditText username_edittext, password_edittext;
     private CallbackManager mCallBackManager;
+    private Long authUserId;
+    private User user;
+    private ArrayList<User> contacts;
+    private ArrayList<Transaction> transactions;
 
     private FacebookCallback<LoginResult> mCallBack=new FacebookCallback<LoginResult>() {
         @Override
@@ -85,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        mCallBackManager.onActivityResult(requestCode,resultCode, data);
+        mCallBackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
@@ -112,15 +124,11 @@ public class MainActivity extends AppCompatActivity {
         String username = username_edittext.getText().toString();
         String password = password_edittext.getText().toString();
 
-        if (valid_login(username, password)) {
-            // take to landing page
-            Toast.makeText(getApplicationContext(), "Login Success", Toast.LENGTH_LONG).show();
-            Intent home_page = new Intent(this, HomePageActivity.class);
-            startActivity(home_page);
-        } else {
-            // show incorrect username message
-            Toast.makeText(getApplicationContext(), "Incorrect username / password", Toast.LENGTH_LONG).show();
-        }
+        AuthDBRequest auth_request = new AuthDBRequest(this, getApplicationContext());
+        HashMap<String, Object> payLoad = new HashMap<String, Object>();
+        payLoad.put("user_name", username);
+        payLoad.put("password", password);
+        auth_request.sendRequest(payLoad);
     }
 
     public void register_clicked(View view) {
@@ -131,4 +139,74 @@ public class MainActivity extends AppCompatActivity {
         req.read_json();
     }
 
+    @Override
+    public void onResponseReceived(String name, HashMap response) {
+        if(name.equals("AuthDBRequest")) {
+            this.authResponseReceived(response);
+        } else if(name.equals("UserDetailsRequest")) {
+            this.userDetailsResponseReceived(response);
+        } else if(name.equals("ContactsDetailsRequest")) {
+            this.contactDetailsReceived(response);
+        } else if(name.equals("TransactionsRequest")) {
+            this.transactionDetailsReceived(response);
+        }
+    }
+
+    private void getUserDetails() {
+        UserDetailsRequest user_req = new UserDetailsRequest(this, getApplicationContext());
+        HashMap<String, Object> payload = new HashMap<>();
+        payload.put("user_id", this.authUserId);
+        user_req.sendRequest(payload);
+    }
+
+    private void getContacts() {
+        ContactDetailsRequest contacts_req = new ContactDetailsRequest(this, getApplicationContext());
+        HashMap<String, Object> payload = new HashMap<>();
+        payload.put("contact_ids", this.user.getContacts());
+        contacts_req.sendRequest(payload);
+    }
+
+    private void getGroups() {
+        ContactDetailsRequest contacts_req = new ContactDetailsRequest(this, getApplicationContext());
+        HashMap<String, Object> payload = new HashMap<>();
+        payload.put("contact_ids", this.user.getContacts());
+        contacts_req.sendRequest(payload);
+    }
+
+    private void getTransactions() {
+        TransactionsRequest trans_req = new TransactionsRequest(this, getApplicationContext());
+        HashMap<String, Object> payload = new HashMap<>();
+        payload.put("user_id", this.user.getId());
+        trans_req.sendRequest(payload);
+    }
+
+    private void authResponseReceived(HashMap response) {
+        if (response.get("user_id") == null) {
+            Toast.makeText(getApplicationContext(), "User authentication failed", Toast.LENGTH_LONG).show();
+        }
+        else {
+            this.authUserId = (Long) response.get("user_id");
+            Toast.makeText(getApplicationContext(), "User authenticated." + this.authUserId.toString(), Toast.LENGTH_LONG).show();
+            this.getUserDetails();
+        }
+    }
+
+    private void userDetailsResponseReceived(HashMap response) {
+        this.user = (User) response.get("user");
+        Toast.makeText(getApplicationContext(), "Welcome " + this.user.getName(), Toast.LENGTH_LONG).show();
+        this.getContacts();
+        this.getTransactions();
+    }
+
+    private void contactDetailsReceived(HashMap response) {
+        this.contacts = (ArrayList<User>) response.get("contacts");
+        Toast.makeText(getApplicationContext(), "User " + this.user.getName() + " has " +
+                ((Integer) this.contacts.size()).toString() + " contacts", Toast.LENGTH_LONG).show();
+    }
+
+    private void transactionDetailsReceived(HashMap response) {
+        this.transactions = (ArrayList<Transaction>) response.get("transactions");
+        Toast.makeText(getApplicationContext(), "User " + this.user.getName() + " has " +
+                ((Integer) this.transactions.size()).toString() + " transactions", Toast.LENGTH_LONG).show();
+    }
 }
