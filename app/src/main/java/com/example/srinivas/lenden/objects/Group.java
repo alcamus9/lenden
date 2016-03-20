@@ -1,11 +1,12 @@
 package com.example.srinivas.lenden.objects;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by srinivas on 3/3/2016.
  */
-public class Group {
+public class Group implements Serializable {
 
     private long id;
     private String name;

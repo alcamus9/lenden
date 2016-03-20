@@ -20,6 +20,8 @@ import com.example.srinivas.lenden.objects.User;
 import com.example.srinivas.lenden.requests.AsyncRequestListener;
 import com.example.srinivas.testlogin.R;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -29,7 +31,7 @@ import java.util.HashMap;
 public class HomePageActivity extends AppCompatActivity implements AsyncRequestListener {
 
     ListView feedView;
-    ListView reminderView;
+    // ListView reminderView;
 
     private Long userId;
     private User user;
@@ -37,6 +39,7 @@ public class HomePageActivity extends AppCompatActivity implements AsyncRequestL
     private ArrayList<Transaction> transactions;
     private ArrayList<Group> groups;
     private HashMap<Long, User> user_map;
+    NumberFormat amtFormatter = new DecimalFormat("#0.00");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,11 +66,13 @@ public class HomePageActivity extends AppCompatActivity implements AsyncRequestL
 
     public void open_contacts_window(View view) {
         Intent contacts_activity = new Intent(this, ContactsActivity.class);
+        contacts_activity.putExtra("contacts", this.contacts);
         startActivity(contacts_activity);
     }
 
     public void open_groups_window(View view) {
         Intent group_activity = new Intent(this, GroupsActivity.class);
+        group_activity.putExtra("groups", this.groups);
         startActivity(group_activity);
     }
 
@@ -120,38 +125,34 @@ public class HomePageActivity extends AppCompatActivity implements AsyncRequestL
 
     private void contactDetailsReceived(HashMap response) {
         this.contacts = (ArrayList<User>) response.get("contacts");
-//        Toast.makeText(getApplicationContext(), "User " + this.user.getName() + " has " +
-//                ((Integer) this.contacts.size()).toString() + " contacts", Toast.LENGTH_LONG).show();
         this.getGroups();
     }
 
     private void transactionDetailsReceived(HashMap response) {
         this.transactions = (ArrayList<Transaction>) response.get("transactions");
+        this.formUserMap();
         this.setAdapters();
-//        Toast.makeText(getApplicationContext(), "User " + this.user.getName() + " has " +
-//                ((Integer) this.transactions.size()).toString() + " transactions", Toast.LENGTH_LONG).show();
     }
 
     private void groupsReceived(HashMap response) {
         this.groups = (ArrayList<Group>) response.get("groups");
-//        Toast.makeText(getApplicationContext(), "User " + this.user.getName() + " has " +
-//                ((Integer) this.groups.size()).toString() + " groups", Toast.LENGTH_LONG).show();
         this.getTransactions();
     }
 
     private void setAdapters() {
         feedView = (ListView) findViewById(R.id.feed_view);
-        reminderView = (ListView) findViewById(R.id.reminder_view);
+        // reminderView = (ListView) findViewById(R.id.reminder_view);
 
-        ArrayAdapter feedAdapter = ArrayAdapter.createFromResource(this,
-                R.array.recent_transactions,
-                android.R.layout.simple_list_item_activated_1);
+        ArrayList<String> transactions = this.getTransactionsSummary();
+        ArrayAdapter feedAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_activated_1,
+                transactions);
         feedView.setAdapter(feedAdapter);
 
-        ArrayAdapter reminderAdapter = ArrayAdapter.createFromResource(this,
+/*        ArrayAdapter reminderAdapter = ArrayAdapter.createFromResource(this,
                 R.array.reminders,
                 android.R.layout.simple_list_item_activated_1);
-        reminderView.setAdapter(reminderAdapter);
+        reminderView.setAdapter(reminderAdapter);*/
     }
 
     private ArrayList<String> getTransactionsSummary() {
@@ -159,14 +160,18 @@ public class HomePageActivity extends AppCompatActivity implements AsyncRequestL
         String conj = "";
         for(int i=0; i < this.transactions.size(); i++) {
             String s="";
+            Long id;
             Transaction t = this.transactions.get(i);
             if(t.getSourceId().equals(this.userId)) {
                 s += "You paid ";
-                conj = "to ";
+                id = t.getDestId();
+                conj = "to " + this.user_map.get(id).get_user_name() + " for " + t.getDescription();
             } else {
                 s += "You received ";
-                conj = "from";
+                id = t.getSourceId();
+                conj = "from " + this.user_map.get(id).get_user_name() + " for " + t.getDescription();
             }
+            result.add(s + amtFormatter.format(t.getAmount()) + " " + conj);
         }
         return result;
     }

@@ -1,11 +1,12 @@
 package com.example.srinivas.lenden.objects;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by srinivas on 3/3/2016.
  */
-public class User {
+public class User implements Serializable {
 
     private String name;
     private long id;
@@ -120,6 +121,7 @@ public class User {
         this.fb_profile_id = fb_profile_id;
         this.contacts = contacts;
         this.groups = groups;
+        this.image_path = "i" + ((Long)this.id).toString();
     }
 
     public User(Long id, String user_name, String name, String email_d,
@@ -129,6 +131,7 @@ public class User {
         this.name = name;
         this.email = email_d;
         this.phone_number = phone_number;
+        this.image_path = "i" + ((Long)this.id).toString();
     }
 
     public User() {

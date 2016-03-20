@@ -47,26 +47,6 @@
             android:id="@+id/feed_view"
             android:layout_margin="10dp"
             ></ListView>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:text="Reminders"
-            android:textStyle="bold"
-            android:background="@android:drawable/editbox_dropdown_light_frame"
-            android:textSize="16sp"
-            android:layout_weight="0"
-            android:gravity="center_vertical"/>
-        <ListView
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:id="@+id/reminder_view"
-            android:layout_margin="10dp"
-            ></ListView>
     </LinearLayout>
 
     <LinearLayout

@@ -11,13 +11,16 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.srinivas.lenden.objects.User;
 import com.example.srinivas.testlogin.R;
+
+import java.util.ArrayList;
 
 /**
  * Created by srinivas on 3/3/2016.
  */
 public class ContactsActivity extends AppCompatActivity {
-    String[] contacts;
+    ArrayList<User> contactsUsers;
     ListView contacts_list_view;
 
     @Override
@@ -25,12 +28,13 @@ public class ContactsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts);
 
+        this.contactsUsers = (ArrayList<User>) getIntent().getSerializableExtra("contacts");
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        contacts_list_view = (ListView) findViewById(R.id.contacts_view);
-        contacts = getResources().getStringArray(R.array.contacts);
-        ArrayAdapter adapter = new ContactArrayAdapter();
+        this.contacts_list_view = (ListView) findViewById(R.id.contacts_view);
+        ArrayAdapter adapter = new ContactArrayAdapter(this.contactsUsers);
         contacts_list_view.setAdapter(adapter);
     }
 
@@ -43,7 +47,11 @@ public class ContactsActivity extends AppCompatActivity {
 
     private class ContactArrayAdapter extends  ArrayAdapter {
         public ContactArrayAdapter() {
-            super(ContactsActivity.this, R.layout.layout_contact, contacts);
+            super(ContactsActivity.this, R.layout.layout_contact, contactsUsers);
+        }
+
+        public ContactArrayAdapter(ArrayList users) {
+            super(ContactsActivity.this, R.layout.layout_contact, users);
         }
 
         @Override
@@ -55,17 +63,15 @@ public class ContactsActivity extends AppCompatActivity {
                 layout_contact = getLayoutInflater().inflate(R.layout.layout_contact, parent, false);
             }
 
-            String current_contact = contacts[position];
+            User current_contact = contactsUsers.get(position);
             ImageView img_view = (ImageView) layout_contact.findViewById(R.id.contact_image_view);
-            Integer img_index = position % 4 + 1;
-            int id = getResources().getIdentifier("c" + img_index.toString(), "drawable", getPackageName());
+            int id = getResources().getIdentifier(current_contact.getImage_path(), "drawable", getPackageName());
             img_view.setImageResource(id);
 
             TextView text_view = (TextView) layout_contact.findViewById(R.id.contact_name_view);
-            text_view.setText(current_contact);
+            text_view.setText(current_contact.get_user_name());
 
             return layout_contact;
-            //return super.getView(position, convertView, parent);
         }
     }
 }

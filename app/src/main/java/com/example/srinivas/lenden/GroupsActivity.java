@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 
+import com.example.srinivas.lenden.objects.Group;
 import com.example.srinivas.testlogin.R;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class GroupsActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
 
     private RCAdapter rcAdapter;
+    ArrayList<Group> groups;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -33,24 +35,25 @@ public class GroupsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_groups);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        this.groups = (ArrayList<Group>) getIntent().getSerializableExtra("groups");
 
         //View layout=inflater.inflate(R.layout.activity_recycler, container, false);
 
         recyclerView = (RecyclerView) findViewById(R.id.grouplist);
-        rcAdapter= new RCAdapter(this, getData());
+        rcAdapter= new RCAdapter(this, this.getData());
         recyclerView.setAdapter(rcAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    public static List<Info> getData() {
+    public List<Info> getData() {
         List<Info> data = new ArrayList<>();
         int[] icons = {R.drawable.smile, R.drawable.smile,R.drawable.smile, R.drawable.smile,R.drawable.smile, R.drawable.smile,R.drawable.smile};
-        String[] titles = {"Oregon Trip", "Seattle excursion", "Windham Ski", "Drew Wedding","India Holiday", "Christmas celebration","Chetan yatch party"};
+        //String[] titles = {"Oregon Trip", "Seattle excursion", "Windham Ski", "Drew Wedding","India Holiday", "Christmas celebration","Chetan yatch party"};
 
-        for (int i = 0; i<titles.length && i<icons.length; i++) {
+        for (int i = 0; i<this.groups.size() && i<icons.length; i++) {
             Info current = new Info();
             current.iconId = icons[i];
-            current.title=titles[i];
+            current.title= this.groups.get(i).getName();
             data.add(current);
         }
 
