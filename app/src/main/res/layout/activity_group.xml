@@ -34,7 +34,7 @@
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:id="@+id/memberlist">
+        android:id="@+id/memberslist">
     </android.support.v7.widget.RecyclerView>
 
     <LinearLayout
@@ -68,7 +68,7 @@
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:id="@+id/listofbills">
+        android:id="@+id/billslist">
     </android.support.v7.widget.RecyclerView>
 
     <LinearLayout
@@ -89,7 +89,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add"
-            android:onClick="goToBill"/> <!-- add the onclick method -->
+            android:onClick="goToAddBill"/> <!-- add the onclick method -->
     </LinearLayout>
 
 

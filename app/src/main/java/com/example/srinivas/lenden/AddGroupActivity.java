@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.EditText;
 
 import com.example.srinivas.testlogin.R;
 
@@ -19,6 +20,7 @@ public class AddGroupActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
 
     private RCAdapter rcAdapter;
+    ArrayList<Info> membersListData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +35,8 @@ public class AddGroupActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    public static List<Info> getData() {
-        List<Info> data = new ArrayList<>();
+    public List<Info> getData() {
+        ArrayList<Info> data = new ArrayList<>();
         int[] icons = {R.drawable.smile, R.drawable.smile,R.drawable.smile};
         String[] titles = {"Varun", "Karan", "Arun" };
 
@@ -44,8 +46,24 @@ public class AddGroupActivity extends AppCompatActivity {
             current.title=titles[i];
             data.add(current);
         }
-
+        this.membersListData=data;
         return data;
+    }
+
+    public void addMember(View v){
+        EditText editText = (EditText) findViewById(R.id.newmembername);
+        String newname= editText.toString();
+        Info newRow = new Info();
+        newRow.iconId=R.drawable.smile;
+        newRow.title=newname;
+        membersListData.add(newRow);
+        rcAdapter.notifyDataSetChanged();
+    }
+
+    //add onClick func which first creates a new 'group', then thru an intent goes to GroupsActivity, & adds this 'group' to the recyclerview there
+    public void createGroup() {
+
+
     }
 
 }
