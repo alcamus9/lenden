@@ -5,7 +5,7 @@ package com.example.srinivas.lenden;
  */
 public class InfoBillSpec {
     String memberName;
-    Double paidAmt;
-    Double owedAmt;
-    Boolean includeMember;
+    double paidAmt;
+    double owedAmt;
+    boolean includeMember;
 }

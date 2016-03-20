@@ -26,14 +26,15 @@
     <!--<include layout="@layout/content_group" />-->
     <TextView
         android:layout_marginTop="10dp"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:background="#EF5350"
         android:layout_height="wrap_content"
         android:text="GROUP MEMBERS"
         android:layout_marginBottom="10dp"/>
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="125dp"
         android:id="@+id/memberslist">
     </android.support.v7.widget.RecyclerView>
 
@@ -41,33 +42,39 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:background="#FFCDD2"
         android:layout_marginTop="10dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Add a group member"/>
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/newmembername"
+            android:background="#FFEBEE"
+            android:layout_weight="1"
             android:hint="Paul Smith"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add"
+
             android:onClick="addMember"/> <!-- add the onclick method -->
     </LinearLayout>
 
     <TextView
         android:layout_marginTop="10dp"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#EF5350"
         android:text="BILLS"
         android:layout_marginBottom="10dp"/>
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="125dp"
         android:id="@+id/billslist">
     </android.support.v7.widget.RecyclerView>
 
@@ -75,20 +82,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:background="#FFCDD2"
         android:layout_marginTop="10dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Add a bill"/>
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="#FFEBEE"
             android:id="@+id/newbill"
+            android:layout_weight="1"
             android:hint="Movie tickets"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add"
+
             android:onClick="goToAddBill"/> <!-- add the onclick method -->
     </LinearLayout>
 
