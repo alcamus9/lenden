@@ -4,6 +4,7 @@
     <string name="pay_ask_text">PAY / ASK</string>
     <string name="contacts_text">CONTACTS</string>
     <string name="account_text">ANALYTICS</string>
+    <string name="groups_text">GROUPS</string>
     <string name="facebook_app_id">1685627565010724</string>
     <string-array name="contacts">
         <item>Chetan Shenoy</item>
@@ -46,6 +47,14 @@
         <item>3000</item>
         <item>2400</item>
     </string-array>
+    <string name="title_activity_recycler">RecyclerActivity</string>
+    <string name="title_activity_group">GroupActivity</string>
+    <string name="title_activity_add_group">AddGroupActivity</string>
+    <string name="title_activity_add_bill">AddBillActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="dummy_text">dummy text</string>
 
 
 </resources>

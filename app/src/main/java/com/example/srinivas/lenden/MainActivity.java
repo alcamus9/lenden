@@ -236,4 +236,9 @@ public class MainActivity extends AppCompatActivity implements AsyncRequestListe
         LoginManager.getInstance().logOut();
         super.onDestroy();
     }
+
+    public void gotorcview(View view){
+        Intent gotorc = new Intent(this, RecyclerActivity.class);
+        startActivity(gotorc);
+    }
 }

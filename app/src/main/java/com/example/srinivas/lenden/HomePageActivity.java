@@ -66,4 +66,9 @@ public class HomePageActivity extends AppCompatActivity {
         Intent contacts_activity = new Intent(this, ContactsActivity.class);
         startActivity(contacts_activity);
     }
+
+    public void open_groups_window(View view) {
+        Intent group_activity = new Intent(this, GroupsActivity.class);
+        startActivity(group_activity);
+    }
 }
