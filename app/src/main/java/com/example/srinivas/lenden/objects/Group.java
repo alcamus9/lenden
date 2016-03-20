@@ -1,5 +1,8 @@
 package com.example.srinivas.lenden.objects;
 
+import com.example.srinivas.lenden.HomePageActivity;
+import com.example.srinivas.lenden.utilities;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -11,22 +14,23 @@ public class Group implements Serializable {
     private long id;
     private String name;
     private ArrayList<Long> users;
-    private ArrayList<Long> transactions;
+    private ArrayList<User> userObjects;
+    private ArrayList<Bill> bills;
 
     public long getId() {
         return id;
     }
 
     public void setId(long id) {
-        this.id = id;
+        this.id = utilities.randBetween(1, 100000000);
     }
 
-    public ArrayList<Long> getTransactions() {
-        return transactions;
+    public ArrayList<Bill> getBills() {
+        return bills;
     }
 
-    public void setTransactions(ArrayList<Long> transactions) {
-        this.transactions = transactions;
+    public void setBills(ArrayList<Bill> bills) {
+        this.bills = bills;
     }
 
     public ArrayList<Long> getUsers() {
@@ -45,9 +49,18 @@ public class Group implements Serializable {
         this.name = name;
     }
 
-    public Group(Long id, String name, ArrayList<Long> users) {
-        this.id = id;
+    public Group(long id, String name, ArrayList<Long> users) {
+        this.id=id;
         this.name = name;
         this.users = users;
     }
+
+    public Group(String name){
+        this.id=utilities.randBetween(1, 100000000);
+        this.name=name;
+        this.userObjects= new ArrayList<>();
+        this.userObjects.add(HomePageActivity.currentUser);
+    }
+
+
 }

@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 
+import com.example.srinivas.lenden.objects.Group;
 import com.example.srinivas.lenden.objects.User;
 import com.example.srinivas.testlogin.R;
 
@@ -34,6 +35,9 @@ public class GroupActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        Intent receive=getIntent();
+        receive.getSerializableExtra("mykey");
+
         recyclerView = (RecyclerView) findViewById(R.id.memberslist);
         rcAdapter= new RCAdapter(this, getMembersListData());
         recyclerView.setAdapter(rcAdapter);
@@ -48,18 +52,23 @@ public class GroupActivity extends AppCompatActivity {
 
     public List<Info> getMembersListData() {
         ArrayList<Info> data = new ArrayList<>();
-        int[] icons = {R.drawable.smile, R.drawable.smile,R.drawable.smile};
-        String[] titles = {"Varun", "Karan", "Arun" };
+        //int[] icons = {R.drawable.smile, R.drawable.smile,R.drawable.smile};
+        //String[] titles = {"Varun", "Karan", "Arun" };
 
-        for (int i = 0; i<titles.length && i<icons.length; i++) {
-            Info current = new Info();
-            current.iconId = icons[i];
-            current.title=titles[i];
-            data.add(current);
-        }
-        this.membersListData=data;
+        //for (int i = 0; i<titles.length && i<icons.length; i++) {
+        //    Info current = new Info();
+        //    current.iconId = icons[i];
+        //    current.title=titles[i];
+        //    data.add(current);
+        //}
+        //this.membersListData=data;
+        //return data;
+        Info current = new Info();
+        current.iconId=R.drawable.smile;
+        User u= (User) getIntent().getSerializableExtra("mykey");
+        current.title=u.getName();
+        data.add(current);
         return data;
-
     }
 
     public void addMember(View v){

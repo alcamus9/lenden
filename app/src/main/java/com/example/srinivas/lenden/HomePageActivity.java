@@ -31,8 +31,7 @@ import java.util.HashMap;
 public class HomePageActivity extends AppCompatActivity implements AsyncRequestListener {
 
     ListView feedView;
-    // ListView reminderView;
-
+    public static User currentUser;
     private Long userId;
     private User user;
     private ArrayList<User> contacts;
@@ -119,6 +118,7 @@ public class HomePageActivity extends AppCompatActivity implements AsyncRequestL
 
     private void userDetailsResponseReceived(HashMap response) {
         this.user = (User) response.get("user");
+        currentUser = this.user;
         Toast.makeText(getApplicationContext(), "Welcome " + this.user.getName(), Toast.LENGTH_LONG).show();
         this.getContacts();
     }

@@ -1,5 +1,6 @@
 package com.example.srinivas.lenden;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -10,8 +11,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 
+import com.example.srinivas.lenden.objects.Group;
+import com.example.srinivas.lenden.objects.User;
 import com.example.srinivas.testlogin.R;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,13 +33,14 @@ public class AddGroupActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        recyclerView = (RecyclerView) findViewById(R.id.memberlist);
+      /*  recyclerView = (RecyclerView) findViewById(R.id.memberlist);
         rcAdapter= new RCAdapter(this, getData());
         recyclerView.setAdapter(rcAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        */
     }
 
-    public List<Info> getData() {
+    /*public List<Info> getData() {
         ArrayList<Info> data = new ArrayList<>();
         int[] icons = {R.drawable.smile, R.drawable.smile,R.drawable.smile};
         String[] titles = {"Varun", "Karan", "Arun" };
@@ -59,11 +64,18 @@ public class AddGroupActivity extends AppCompatActivity {
         membersListData.add(newRow);
         rcAdapter.notifyDataSetChanged();
     }
+    */
+    //add onClick func which first creates a new 'group', then
+    //thru an intent goes to GroupsActivity, & adds this 'group' to the recyclerview there
+    public void createGroup(View v) {
+        EditText e = (EditText) findViewById(R.id.groupname);
+        String group_name= e.toString();
+        Group newGroup = new Group(group_name);
 
-    //add onClick func which first creates a new 'group', then thru an intent goes to GroupsActivity, & adds this 'group' to the recyclerview there
-    public void createGroup() {
-
-
+        Intent send = new Intent(this, GroupActivity.class);
+        send.putExtra("mykey", newGroup);
+        startActivityForResult(send, 1);
     }
+
 
 }
