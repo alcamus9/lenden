@@ -25,23 +25,25 @@
     </android.support.design.widget.AppBarLayout>
 
     <!--<include layout="@layout/content_add_group" />-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+
     <TextView
+        android:layout_marginTop="150dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:text="Enter group name "/>
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:id="@+id/groupname"
+        android:textColor="#EF5350"
+        android:textSize="30sp"
         android:hint="New Year Party"/>
-    </LinearLayout>
 
-    <LinearLayout
+
+    <!--<LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -60,9 +62,9 @@
             android:layout_height="wrap_content"
             android:id="@+id/addMember"
             android:text="Add"/>
-    </LinearLayout>
+    </LinearLayout>-->
 
-    <TextView
+   <!-- <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="MEMBERS"
@@ -72,10 +74,11 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:id="@+id/memberlist">
-    </android.support.v7.widget.RecyclerView>
+    </android.support.v7.widget.RecyclerView>-->
 
 
     <Button
+        android:layout_marginTop="40dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
