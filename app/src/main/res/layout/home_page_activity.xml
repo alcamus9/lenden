@@ -108,12 +108,13 @@
             android:layout_height="50dp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
-            android:text="@string/account_text"
+            android:text="@string/groups_text"
             android:gravity="center"
             android:textSize="18sp"
             android:textColor="@android:color/black"
+            android:onClick="open_groups_window"
             android:background="@android:drawable/divider_horizontal_bright"
-            android:id="@+id/analytics_text"
+            android:id="@+id/groups_text"
             />
 
     </LinearLayout>
