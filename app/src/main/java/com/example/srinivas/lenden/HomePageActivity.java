@@ -36,6 +36,7 @@ public class HomePageActivity extends AppCompatActivity implements AsyncRequestL
     private ArrayList<User> contacts;
     private ArrayList<Transaction> transactions;
     private ArrayList<Group> groups;
+    private HashMap<Long, User> user_map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,8 +154,30 @@ public class HomePageActivity extends AppCompatActivity implements AsyncRequestL
         reminderView.setAdapter(reminderAdapter);
     }
 
+    private ArrayList<String> getTransactionsSummary() {
+        ArrayList<String> result = new ArrayList<>();
+        String conj = "";
+        for(int i=0; i < this.transactions.size(); i++) {
+            String s="";
+            Transaction t = this.transactions.get(i);
+            if(t.getSourceId().equals(this.userId)) {
+                s += "You paid ";
+                conj = "to ";
+            } else {
+                s += "You received ";
+                conj = "from";
+            }
+        }
+        return result;
+    }
 
-
-
+    private void formUserMap() {
+        HashMap<Long, User> user_map = new HashMap<>();
+        for (int i=0; i < this.contacts.size(); i++) {
+            User u = this.contacts.get(i);
+            user_map.put(u.getId(), u);
+        }
+        this.user_map = user_map;
+    }
 
 }
