@@ -2,14 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.srinivas.lenden.HomePageActivity">
+    tools:context="com.example.srinivas.lenden.GroupsActivity">
 
     <item
-        android:id="@+id/add_contact"
-        android:icon="@drawable/ic_action_add_person"
-        android:title="Pay and Ask"
+        android:id="@+id/add_group"
+        android:icon="@drawable/ic_action_add_group"
+        android:title="groups"
         app:showAsAction="always" />
-
 
     <item
         android:id="@+id/action_settings"

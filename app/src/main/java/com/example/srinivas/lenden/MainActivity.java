@@ -131,4 +131,8 @@ public class MainActivity extends AppCompatActivity {
         req.read_json();
     }
 
+    public void gotorcview(View view){
+        Intent gotorc = new Intent(this, RecyclerActivity.class);
+        startActivity(gotorc);
+    }
 }
