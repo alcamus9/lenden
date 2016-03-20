@@ -21,9 +21,11 @@ public class GroupActivity extends AppCompatActivity {
 
     private ArrayList<User> groupMembers= new ArrayList<User>();//make sure that if we arrived at this activity from groupsactivity+CREATEGROUP button, then we take vals
 
-    private RecyclerView recyclerView;
+    private RecyclerView recyclerView, recyclerView2;
 
-    private RCAdapter rcAdapter;
+    private RCAdapter rcAdapter, rcAdapter2;
+
+    ArrayList<Info> membersListData, billsListData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,17 +34,22 @@ public class GroupActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        recyclerView = (RecyclerView) findViewById(R.id.memberlist);
-        rcAdapter= new RCAdapter(this, getData());
+        recyclerView = (RecyclerView) findViewById(R.id.memberslist);
+        rcAdapter= new RCAdapter(this, getMembersListData());
         recyclerView.setAdapter(rcAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        recyclerView2 = (RecyclerView) findViewById(R.id.billslist);
+        rcAdapter2= new RCAdapter(this, getBillsListData());
+        recyclerView2.setAdapter(rcAdapter2);
+        recyclerView2.setLayoutManager(new LinearLayoutManager(this));
+
     }
 
-    public static List<Info> getData() {
-        List<Info> data = new ArrayList<>();
-        int[] icons = {R.drawable.cash_in, R.drawable.cash_out,R.drawable.cash_in, R.drawable.cash_out,R.drawable.cash_in, R.drawable.cash_out,R.drawable.cash_in, R.drawable.cash_out,R.drawable.cash_in, R.drawable.cash_out,R.drawable.cash_in, R.drawable.cash_out};
-        String[] titles = {"You received 10 Rupees from Varun", "You paid 10 rupees to Karan", "You received 10 Rupees from Varun", "You paid 10 rupees to Karan","You received 10 Rupees from Varun", "You paid 10 rupees to Karan","You received 10 Rupees from Varun", "You paid 10 rupees to Karan","You received 10 Rupees from Varun", "You paid 10 rupees to Karan","You received 10 Rupees from Varun", "You paid 10 rupees to Karan"};
+    public List<Info> getMembersListData() {
+        ArrayList<Info> data = new ArrayList<>();
+        int[] icons = {R.drawable.smile, R.drawable.smile,R.drawable.smile};
+        String[] titles = {"Varun", "Karan", "Arun" };
 
         for (int i = 0; i<titles.length && i<icons.length; i++) {
             Info current = new Info();
@@ -50,28 +57,51 @@ public class GroupActivity extends AppCompatActivity {
             current.title=titles[i];
             data.add(current);
         }
+        this.membersListData=data;
+        return data;
 
+    }
+
+    public void addMember(View v){
+        EditText editText = (EditText) findViewById(R.id.newmembername);
+        String newname= editText.toString();
+        Info newRow = new Info();
+        newRow.iconId=R.drawable.smile;
+        newRow.title=newname;
+        membersListData.add(newRow);
+        rcAdapter.notifyDataSetChanged();
+
+    }
+
+
+    public List<Info> getBillsListData() {
+        ArrayList<Info> data = new ArrayList<>(); //remember this syntax
+        int[] icons = {R.drawable.smile, R.drawable.smile,R.drawable.smile};
+        String[] titles = {"Broadway show", "Lunch at cozi", "Gas and drinks" };
+
+        for (int i = 0; i<titles.length && i<icons.length; i++) {
+            Info current = new Info();
+            current.iconId = icons[i];
+            current.title=titles[i];
+            data.add(current);
+        }
+        this.billsListData=data;
         return data;
     }
 
-    public ArrayList<User> addMember(){
-        EditText editText = (EditText) findViewById(R.id.newmembername);
-        String newname= editText.toString();
 
-
-    }
 
 
     //this intent has to send across a string[] or arrayList<String>  with all the members names
     //the AddBillActivity will fill in these member names, and fill in fictional (0) values for its
     //other guys like paidAmt, owedAmt, includeMember
-    public void goToBill(){
+    public void goToAddBill(View v){
         Intent send =new Intent(this, AddBillActivity.class);
         startActivity(send);
-        send.putExtra("mykey",value);
+        //send.putExtra("mykey",value);
 
 
-        startActivityForResult(send, 1);
+        //startActivityForResult(send, 1);
     }
 
 }

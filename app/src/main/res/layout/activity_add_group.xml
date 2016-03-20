@@ -58,6 +58,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/addMember"
             android:text="Add"/>
     </LinearLayout>
 
@@ -78,8 +79,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="CREATE GROUP!"/> <!--add an onClick to this button which
-        will first create a new group, then thru an intent go to GroupsActivity
+        android:text="CREATE GROUP!"
+        android:onClick="createGroup"/> <!--add an onClick to this button which
+        will first create a new 'group', then thru an intent go to GroupsActivity
         & add this group to the recyclerview there-->
 
 </LinearLayout>
