@@ -131,4 +131,8 @@ public class User {
         this.phone_number = phone_number;
     }
 
+    public User() {
+
+    }
+
 }
