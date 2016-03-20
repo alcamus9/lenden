@@ -54,7 +54,8 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add"/> <!-- add the onclick method -->
+            android:text="Add"
+            android:onClick="addMember"/> <!-- add the onclick method -->
     </LinearLayout>
 
     <TextView
