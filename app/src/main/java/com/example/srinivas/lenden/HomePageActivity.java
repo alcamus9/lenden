@@ -72,6 +72,7 @@ public class HomePageActivity extends AppCompatActivity implements AsyncRequestL
     public void open_groups_window(View view) {
         Intent group_activity = new Intent(this, GroupsActivity.class);
         group_activity.putExtra("groups", this.groups);
+        group_activity.putExtra("source", "fromHomePage");
         startActivity(group_activity);
     }
 

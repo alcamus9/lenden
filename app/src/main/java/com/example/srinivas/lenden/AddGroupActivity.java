@@ -25,13 +25,15 @@ public class AddGroupActivity extends AppCompatActivity {
 
     private RCAdapter rcAdapter;
     ArrayList<Info> membersListData;
-
+    ArrayList<Group> tGroups;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_group);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        tGroups = (ArrayList<Group>) getIntent().getSerializableExtra("travelingGroups");
 
       /*  recyclerView = (RecyclerView) findViewById(R.id.memberlist);
         rcAdapter= new RCAdapter(this, getData());
@@ -69,11 +71,13 @@ public class AddGroupActivity extends AppCompatActivity {
     //thru an intent goes to GroupsActivity, & adds this 'group' to the recyclerview there
     public void createGroup(View v) {
         EditText e = (EditText) findViewById(R.id.groupname);
-        String group_name= e.toString();
+        String group_name= e.getText().toString();
         Group newGroup = new Group(group_name);
 
         Intent send = new Intent(this, GroupActivity.class);
         send.putExtra("mykey", newGroup);
+        send.putExtra("travelingGroups",tGroups);
+        //send.putExtra("currUser", HomePageActivity.currentUser);
         startActivityForResult(send, 1);
     }
 

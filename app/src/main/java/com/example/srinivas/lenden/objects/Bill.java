@@ -1,15 +1,18 @@
 package com.example.srinivas.lenden.objects;
 
+import com.example.srinivas.lenden.HomePageActivity;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 
 /**
  * Created by sushantc on 3/18/16.
  */
-public class Bill {
+public class Bill implements Serializable {
 
     ArrayList<User> participants;
-    public User currentUser = new User();
+    public User currentUser = HomePageActivity.currentUser;
     private double amount;
     private String description;
     private Map<Long, Double> contributions;//<user id, contribution>

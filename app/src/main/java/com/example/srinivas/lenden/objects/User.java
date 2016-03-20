@@ -136,8 +136,8 @@ public class User implements Serializable {
         this.image_path = "i" + ((Long)this.id).toString();
     }
 
-    public User() {
-
+    public User(String name) {//sushant created this to make "add group member" functionality working in GroupActivity. will change later.
+        this.name=name;
     }
 
     public User(String user_name, String password, String name, String phone_number,

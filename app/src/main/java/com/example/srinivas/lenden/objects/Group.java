@@ -62,5 +62,14 @@ public class Group implements Serializable {
         this.userObjects.add(HomePageActivity.currentUser);
     }
 
+    public Group addMember(User user){
+        this.userObjects.add(user);
+        return this;
+    }
+
+    public ArrayList<User> getUserObjects(){
+        return userObjects;
+    }
+
 
 }
