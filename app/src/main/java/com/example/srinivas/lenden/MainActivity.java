@@ -76,15 +76,9 @@ public class MainActivity extends AppCompatActivity implements AsyncRequestListe
         }
     };
 
-    private void initialize() {
-        password_ref.put("sus", "shirl");
-        password_ref.put("srin", "weim");
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initialize();
         FacebookSdk.sdkInitialize(getApplicationContext());
 
         mCallBackManager= CallbackManager.Factory.create();
@@ -131,7 +125,6 @@ public class MainActivity extends AppCompatActivity implements AsyncRequestListe
         return password_ref.get(username).equals(password_ent);
     }
 
-
     public void submit_clicked(View view) {
         String username = username_edittext.getText().toString();
         String password = password_edittext.getText().toString();
@@ -155,43 +148,7 @@ public class MainActivity extends AppCompatActivity implements AsyncRequestListe
     public void onResponseReceived(String name, HashMap response) {
         if(name.equals("AuthDBRequest")) {
             this.authResponseReceived(response);
-        } else if(name.equals("UserDetailsRequest")) {
-            this.userDetailsResponseReceived(response);
-        } else if(name.equals("ContactsDetailsRequest")) {
-            this.contactDetailsReceived(response);
-        } else if(name.equals("TransactionsRequest")) {
-            this.transactionDetailsReceived(response);
-        } else if(name.equals("GroupsRequest")) {
-            this.groupsReceived(response);
         }
-    }
-
-    private void getUserDetails() {
-        UserDetailsRequest user_req = new UserDetailsRequest(this, getApplicationContext());
-        HashMap<String, Object> payload = new HashMap<>();
-        payload.put("user_id", this.authUserId);
-        user_req.sendRequest(payload);
-    }
-
-    private void getContacts() {
-        ContactDetailsRequest contacts_req = new ContactDetailsRequest(this, getApplicationContext());
-        HashMap<String, Object> payload = new HashMap<>();
-        payload.put("contact_ids", this.user.getContacts());
-        contacts_req.sendRequest(payload);
-    }
-
-    private void getGroups() {
-        GroupDetailRequest group_req = new GroupDetailRequest(this, getApplicationContext());
-        HashMap<String, Object> payload = new HashMap<>();
-        payload.put("user_id", this.user.getId());
-        group_req.sendRequest(payload);
-    }
-
-    private void getTransactions() {
-        TransactionsRequest trans_req = new TransactionsRequest(this, getApplicationContext());
-        HashMap<String, Object> payload = new HashMap<>();
-        payload.put("user_id", this.user.getId());
-        trans_req.sendRequest(payload);
     }
 
     private void authResponseReceived(HashMap response) {
@@ -201,34 +158,8 @@ public class MainActivity extends AppCompatActivity implements AsyncRequestListe
         else {
             this.authUserId = (Long) response.get("user_id");
             Toast.makeText(getApplicationContext(), "User authenticated." + this.authUserId.toString(), Toast.LENGTH_LONG).show();
-            this.getUserDetails();
+            this.createHomePageActivity();
         }
-    }
-
-    private void userDetailsResponseReceived(HashMap response) {
-        this.user = (User) response.get("user");
-        Toast.makeText(getApplicationContext(), "Welcome " + this.user.getName(), Toast.LENGTH_LONG).show();
-        this.getContacts();
-        this.getTransactions();
-        this.getGroups();
-    }
-
-    private void contactDetailsReceived(HashMap response) {
-        this.contacts = (ArrayList<User>) response.get("contacts");
-        Toast.makeText(getApplicationContext(), "User " + this.user.getName() + " has " +
-                ((Integer) this.contacts.size()).toString() + " contacts", Toast.LENGTH_LONG).show();
-    }
-
-    private void transactionDetailsReceived(HashMap response) {
-        this.transactions = (ArrayList<Transaction>) response.get("transactions");
-        Toast.makeText(getApplicationContext(), "User " + this.user.getName() + " has " +
-                ((Integer) this.transactions.size()).toString() + " transactions", Toast.LENGTH_LONG).show();
-    }
-
-    private void groupsReceived(HashMap response) {
-        this.groups = (ArrayList<Group>) response.get("groups");
-        Toast.makeText(getApplicationContext(), "User " + this.user.getName() + " has " +
-                ((Integer) this.groups.size()).toString() + " groups", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -240,5 +171,11 @@ public class MainActivity extends AppCompatActivity implements AsyncRequestListe
     public void gotorcview(View view){
         Intent gotorc = new Intent(this, RecyclerActivity.class);
         startActivity(gotorc);
+    }
+
+    public void createHomePageActivity() {
+        Intent homePageIntent = new Intent(this, HomePageActivity.class);
+        homePageIntent.putExtra("userId", this.authUserId);
+        startActivity(homePageIntent);
     }
 }

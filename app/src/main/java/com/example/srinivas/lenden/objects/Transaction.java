@@ -79,4 +79,5 @@ public class Transaction {
         this.amount = amount;
         this.status = status;
     }
+
 }

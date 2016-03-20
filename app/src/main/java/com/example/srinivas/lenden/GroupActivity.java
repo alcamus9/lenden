@@ -57,6 +57,7 @@ public class GroupActivity extends AppCompatActivity {
     public ArrayList<User> addMember(){
         EditText editText = (EditText) findViewById(R.id.newmembername);
         String newname= editText.toString();
+        return null;
 
 
     }
@@ -68,7 +69,7 @@ public class GroupActivity extends AppCompatActivity {
     public void goToBill(){
         Intent send =new Intent(this, AddBillActivity.class);
         startActivity(send);
-        send.putExtra("mykey",value);
+        // send.putExtra("mykey",value);
 
 
         startActivityForResult(send, 1);

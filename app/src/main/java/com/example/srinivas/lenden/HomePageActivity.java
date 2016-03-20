@@ -8,16 +8,34 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.example.srinivas.lenden.dbrequests.ContactDetailsRequest;
+import com.example.srinivas.lenden.dbrequests.GroupDetailRequest;
+import com.example.srinivas.lenden.dbrequests.TransactionsRequest;
+import com.example.srinivas.lenden.dbrequests.UserDetailsRequest;
+import com.example.srinivas.lenden.objects.Group;
+import com.example.srinivas.lenden.objects.Transaction;
+import com.example.srinivas.lenden.objects.User;
+import com.example.srinivas.lenden.requests.AsyncRequestListener;
 import com.example.srinivas.testlogin.R;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by srinivas on 3/2/2016.
  */
-public class HomePageActivity extends AppCompatActivity {
+public class HomePageActivity extends AppCompatActivity implements AsyncRequestListener {
 
     ListView feedView;
     ListView reminderView;
+
+    private Long userId;
+    private User user;
+    private ArrayList<User> contacts;
+    private ArrayList<Transaction> transactions;
+    private ArrayList<Group> groups;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,27 +44,8 @@ public class HomePageActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        feedView = (ListView) findViewById(R.id.feed_view);
-//        TextView feed_header = new TextView(this);
-//        feed_header.setText("Recent Activity");
-//        feedView.addHeaderView(feed_header);
-
-        reminderView = (ListView) findViewById(R.id.reminder_view);
-//        TextView reminder_header = new TextView(this);
-//        reminder_header.setText("Reminders");
-//        reminderView.addHeaderView(reminder_header);
-
-        ArrayAdapter feedAdapter = ArrayAdapter.createFromResource(this,
-                                                R.array.recent_transactions,
-                                                android.R.layout.simple_list_item_activated_1);
-        feedView.setAdapter(feedAdapter);
-
-        ArrayAdapter reminderAdapter = ArrayAdapter.createFromResource(this,
-                                                R.array.reminders,
-                                                android.R.layout.simple_list_item_activated_1);
-        reminderView.setAdapter(reminderAdapter);
-
+        this.userId = getIntent().getLongExtra("userId", 0);
+        this.getUserDetails();
     }
 
     @Override
@@ -55,7 +54,6 @@ public class HomePageActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-
 
     public void open_pay_window(View view) {
         Intent pay_activity = new Intent(this, PayReceiveActivity.class);
@@ -71,4 +69,92 @@ public class HomePageActivity extends AppCompatActivity {
         Intent group_activity = new Intent(this, GroupsActivity.class);
         startActivity(group_activity);
     }
+
+    @Override
+    public void onResponseReceived(String name, HashMap response) {
+        if(name.equals("UserDetailsRequest")) {
+            this.userDetailsResponseReceived(response);
+        } else if(name.equals("ContactsDetailsRequest")) {
+            this.contactDetailsReceived(response);
+        } else if(name.equals("TransactionsRequest")) {
+            this.transactionDetailsReceived(response);
+        } else if(name.equals("GroupsRequest")) {
+            this.groupsReceived(response);
+        }
+    }
+
+    private void getUserDetails() {
+        UserDetailsRequest user_req = new UserDetailsRequest(this, getApplicationContext());
+        HashMap<String, Object> payload = new HashMap<>();
+        payload.put("user_id", this.userId);
+        user_req.sendRequest(payload);
+    }
+
+    private void getContacts() {
+        ContactDetailsRequest contacts_req = new ContactDetailsRequest(this, getApplicationContext());
+        HashMap<String, Object> payload = new HashMap<>();
+        payload.put("contact_ids", this.user.getContacts());
+        contacts_req.sendRequest(payload);
+    }
+
+    private void getGroups() {
+        GroupDetailRequest group_req = new GroupDetailRequest(this, getApplicationContext());
+        HashMap<String, Object> payload = new HashMap<>();
+        payload.put("user_id", this.user.getId());
+        group_req.sendRequest(payload);
+    }
+
+    private void getTransactions() {
+        TransactionsRequest trans_req = new TransactionsRequest(this, getApplicationContext());
+        HashMap<String, Object> payload = new HashMap<>();
+        payload.put("user_id", this.user.getId());
+        trans_req.sendRequest(payload);
+    }
+
+    private void userDetailsResponseReceived(HashMap response) {
+        this.user = (User) response.get("user");
+        Toast.makeText(getApplicationContext(), "Welcome " + this.user.getName(), Toast.LENGTH_LONG).show();
+        this.getContacts();
+    }
+
+    private void contactDetailsReceived(HashMap response) {
+        this.contacts = (ArrayList<User>) response.get("contacts");
+//        Toast.makeText(getApplicationContext(), "User " + this.user.getName() + " has " +
+//                ((Integer) this.contacts.size()).toString() + " contacts", Toast.LENGTH_LONG).show();
+        this.getGroups();
+    }
+
+    private void transactionDetailsReceived(HashMap response) {
+        this.transactions = (ArrayList<Transaction>) response.get("transactions");
+        this.setAdapters();
+//        Toast.makeText(getApplicationContext(), "User " + this.user.getName() + " has " +
+//                ((Integer) this.transactions.size()).toString() + " transactions", Toast.LENGTH_LONG).show();
+    }
+
+    private void groupsReceived(HashMap response) {
+        this.groups = (ArrayList<Group>) response.get("groups");
+//        Toast.makeText(getApplicationContext(), "User " + this.user.getName() + " has " +
+//                ((Integer) this.groups.size()).toString() + " groups", Toast.LENGTH_LONG).show();
+        this.getTransactions();
+    }
+
+    private void setAdapters() {
+        feedView = (ListView) findViewById(R.id.feed_view);
+        reminderView = (ListView) findViewById(R.id.reminder_view);
+
+        ArrayAdapter feedAdapter = ArrayAdapter.createFromResource(this,
+                R.array.recent_transactions,
+                android.R.layout.simple_list_item_activated_1);
+        feedView.setAdapter(feedAdapter);
+
+        ArrayAdapter reminderAdapter = ArrayAdapter.createFromResource(this,
+                R.array.reminders,
+                android.R.layout.simple_list_item_activated_1);
+        reminderView.setAdapter(reminderAdapter);
+    }
+
+
+
+
+
 }
