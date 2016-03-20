@@ -1,7 +1,7 @@
 package com.example.srinivas.lenden.objects;
 
 import com.example.srinivas.lenden.HomePageActivity;
-import com.example.srinivas.lenden.utilities;
+import com.example.srinivas.lenden.Utilities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ public class Group implements Serializable {
     }
 
     public void setId(long id) {
-        this.id = utilities.randBetween(1, 100000000);
+        this.id = Utilities.randBetween(1, 100000000);
     }
 
     public ArrayList<Bill> getBills() {
@@ -56,7 +56,7 @@ public class Group implements Serializable {
     }
 
     public Group(String name){
-        this.id=utilities.randBetween(1, 100000000);
+        this.id= Utilities.randBetween(1, 100000000);
         this.name=name;
         this.userObjects= new ArrayList<>();
         this.userObjects.add(HomePageActivity.currentUser);

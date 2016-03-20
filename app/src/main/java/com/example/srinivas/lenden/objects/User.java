@@ -1,5 +1,7 @@
 package com.example.srinivas.lenden.objects;
 
+import com.example.srinivas.lenden.Utilities;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -136,6 +138,16 @@ public class User implements Serializable {
 
     public User() {
 
+    }
+
+    public User(String user_name, String password, String name, String phone_number,
+                String email){
+        this.id= Utilities.randBetween(1, 100000000);
+        this.name = name;
+        this.password = password;
+        this.phone_number = phone_number;
+        this.user_name = user_name;
+        this.email = email;
     }
 
 }

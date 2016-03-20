@@ -4,6 +4,7 @@ import android.content.Context;
 import android.hardware.camera2.TotalCaptureResult;
 import android.widget.Toast;
 
+import com.example.srinivas.lenden.database.DBAdapter;
 import com.example.srinivas.lenden.objects.User;
 import com.example.srinivas.lenden.requests.AsyncRequestListener;
 import com.facebook.internal.BoltsMeasurementEventListener;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -31,10 +33,12 @@ public class AuthDBRequest implements BaseDBRequest {
     JSONArray users_data_json;
     HashMap<String, User> user_details_map;
     Long userId;
+    DBAdapter dbhelper;
 
     public  AuthDBRequest(AsyncRequestListener listener, Context context) {
         this.listener = listener;
         this.appContext = context;
+        this.dbhelper = new DBAdapter(this.appContext);
         this.init_request();
     }
 
@@ -72,28 +76,54 @@ public class AuthDBRequest implements BaseDBRequest {
 
     public void init_request() {
         this.user_details_map = new HashMap<>();
+        boolean noUsers = true;
         //for now, read json file, search and authenticate
-        try{
-            InputStream is =  this.appContext.getAssets().open("users_data.json");
 
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            users_data_string = new String(buffer, "utf-8");
-            JSONObject data_json = new JSONObject(users_data_string);
-            users_data_json = data_json.getJSONArray("users");
+            ArrayList<User> users_list = dbhelper.getAllUsers();
+            if (false) {
+                Toast.makeText(this.appContext, "Empty db. Have to insert", Toast.LENGTH_LONG).show();
+                noUsers = false;
+                for(int i=0; i < users_list.size(); i++) {
 
-            for (int i=0; i < users_data_json.length(); i++) {
-                JSONObject j = users_data_json.getJSONObject(i);
-                User u = this.makeUserFromJSON(j);
-                user_details_map.put(j.getString("id"), u);
+                }
+            } else {
+                Toast.makeText(this.appContext, "DB Not empty.", Toast.LENGTH_LONG).show();
+                noUsers = true;
+
+                try {
+                InputStream is = this.appContext.getAssets().open("users_data.json");
+
+                int size = is.available();
+                byte[] buffer = new byte[size];
+                is.read(buffer);
+                is.close();
+                users_data_string = new String(buffer, "utf-8");
+                JSONObject data_json = new JSONObject(users_data_string);
+                users_data_json = data_json.getJSONArray("users");
+
+                for (int i = 0; i < users_data_json.length(); i++) {
+                    JSONObject j = users_data_json.getJSONObject(i);
+                    User u = this.makeUserFromJSON(j);
+                    user_details_map.put(j.getString("id"), u);
+                    users_list.add(u);
+                }
+            }catch(IOException e){
+                System.out.println("error");
+                e.printStackTrace(System.err);
+            }catch(JSONException e){
+                e.printStackTrace(System.err);
             }
-        } catch (IOException e) {
-            System.out.println("error");
-            e.printStackTrace(System.err);
-        } catch (JSONException e) {
-            e.printStackTrace(System.err);
+        }
+        ArrayList<User> users = new ArrayList<>();
+        Collection<User> tempUsers = user_details_map.values();
+        User[] users_array = new User[tempUsers.size()];
+        tempUsers.toArray(users_array);
+        for (int i=0; i<tempUsers.size();i++) {
+            users.add(users_array[i]);
+        }
+
+        if(users.size() > 0 && noUsers) {
+            dbhelper.insertUsers(users);
         }
     }
 

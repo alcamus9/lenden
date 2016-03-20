@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.srinivas.lenden.database.DBAdapter;
 import com.example.srinivas.lenden.dbrequests.AuthDBRequest;
 import com.example.srinivas.lenden.dbrequests.ContactDetailsRequest;
 import com.example.srinivas.lenden.dbrequests.GroupDetailRequest;
@@ -40,10 +41,7 @@ public class MainActivity extends AppCompatActivity implements AsyncRequestListe
     EditText username_edittext, password_edittext;
     private CallbackManager mCallBackManager;
     private Long authUserId;
-    private User user;
-    private ArrayList<User> contacts;
-    private ArrayList<Transaction> transactions;
-    private ArrayList<Group> groups;
+    private DBAdapter dbHelper;
 
     private FacebookCallback<LoginResult> mCallBack=new FacebookCallback<LoginResult>() {
 
@@ -80,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements AsyncRequestListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
+        dbHelper = new DBAdapter(this);
 
         mCallBackManager= CallbackManager.Factory.create();
         setContentView(R.layout.activity_main);
@@ -138,10 +137,8 @@ public class MainActivity extends AppCompatActivity implements AsyncRequestListe
 
     public void register_clicked(View view) {
         // start registration activity
-//        Intent reg_activity = new Intent(this, RegistrationActivity.class);
-//        startActivity(reg_activity);
-        ReqPayRequest req = new ReqPayRequest(getApplicationContext());
-        req.read_json();
+        Intent reg_activity = new Intent(this, RegistrationActivity.class);
+        startActivity(reg_activity);
     }
 
     @Override
