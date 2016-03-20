@@ -11,7 +11,6 @@
         android:orientation="vertical"
         android:background="#e8e8e7">
 
-
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="48dp"
@@ -19,17 +18,10 @@
             android:background="#13b586"
             android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/app_icon" />
-
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_gravity="left|center_vertical"
                 android:layout_marginLeft="25dp"
                 android:text="LenDen"
                 android:textColor="#ffffff"
@@ -57,6 +49,25 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:hint="Password"
+                android:inputType="textPassword"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/reg_password_confirm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:inputType="textPassword"
+                android:hint="Confirm Password"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/reg_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:hint="Name"
+                android:inputType="text"
                 android:textSize="12sp" />
 
             <EditText
@@ -68,7 +79,16 @@
                 android:inputType="phone"
                 android:textSize="12sp" />
 
-            <LinearLayout
+            <EditText
+                android:id="@+id/reg_email_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:hint="Email Id"
+                android:inputType="textEmailAddress"
+                android:textSize="12sp" />
+
+            <!-- <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -93,7 +113,7 @@
                     android:layout_weight="1"
                     android:text="\@MAPP" />
 
-            </LinearLayout>
+            </LinearLayout> -->
 
             <EditText
                 android:id="@+id/iin_number"
