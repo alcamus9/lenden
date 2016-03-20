@@ -43,4 +43,10 @@ public class Group {
     public void setName(String name) {
         this.name = name;
     }
+
+    public Group(Long id, String name, ArrayList<Long> users) {
+        this.id = id;
+        this.name = name;
+        this.users = users;
+    }
 }

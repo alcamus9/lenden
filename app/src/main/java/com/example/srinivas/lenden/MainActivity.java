@@ -11,8 +11,10 @@ import android.widget.Toast;
 
 import com.example.srinivas.lenden.dbrequests.AuthDBRequest;
 import com.example.srinivas.lenden.dbrequests.ContactDetailsRequest;
+import com.example.srinivas.lenden.dbrequests.GroupDetailRequest;
 import com.example.srinivas.lenden.dbrequests.TransactionsRequest;
 import com.example.srinivas.lenden.dbrequests.UserDetailsRequest;
+import com.example.srinivas.lenden.objects.Group;
 import com.example.srinivas.lenden.objects.Transaction;
 import com.example.srinivas.lenden.objects.User;
 import com.example.srinivas.lenden.requests.AsyncRequestListener;
@@ -25,6 +27,7 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.Profile;
 import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
@@ -40,17 +43,26 @@ public class MainActivity extends AppCompatActivity implements AsyncRequestListe
     private User user;
     private ArrayList<User> contacts;
     private ArrayList<Transaction> transactions;
+    private ArrayList<Group> groups;
 
     private FacebookCallback<LoginResult> mCallBack=new FacebookCallback<LoginResult>() {
+
+        private MainActivity getOuter() {
+            return MainActivity.this;
+        }
+
         @Override
         public void onSuccess(LoginResult loginResult) {
             AccessToken successToken = loginResult.getAccessToken();
             Profile profile = Profile.getCurrentProfile();
 
             if(profile!=null) {
-                Toast.makeText(getApplicationContext(), "Welcome " + profile.getName(), Toast.LENGTH_LONG).show();
+                // Toast.makeText(getApplicationContext(), "Welcome " + profile.getName(), Toast.LENGTH_LONG).show();
+                AuthDBRequest auth_request = new AuthDBRequest(getOuter(), getApplicationContext());
+                HashMap<String, Object> payLoad = new HashMap<String, Object>();
+                payLoad.put("fb_profile_id", profile.getId());
+                auth_request.sendRequest(payLoad);
             }
-
         }
 
         @Override
@@ -149,6 +161,8 @@ public class MainActivity extends AppCompatActivity implements AsyncRequestListe
             this.contactDetailsReceived(response);
         } else if(name.equals("TransactionsRequest")) {
             this.transactionDetailsReceived(response);
+        } else if(name.equals("GroupsRequest")) {
+            this.groupsReceived(response);
         }
     }
 
@@ -167,10 +181,10 @@ public class MainActivity extends AppCompatActivity implements AsyncRequestListe
     }
 
     private void getGroups() {
-        ContactDetailsRequest contacts_req = new ContactDetailsRequest(this, getApplicationContext());
+        GroupDetailRequest group_req = new GroupDetailRequest(this, getApplicationContext());
         HashMap<String, Object> payload = new HashMap<>();
-        payload.put("contact_ids", this.user.getContacts());
-        contacts_req.sendRequest(payload);
+        payload.put("user_id", this.user.getId());
+        group_req.sendRequest(payload);
     }
 
     private void getTransactions() {
@@ -196,6 +210,7 @@ public class MainActivity extends AppCompatActivity implements AsyncRequestListe
         Toast.makeText(getApplicationContext(), "Welcome " + this.user.getName(), Toast.LENGTH_LONG).show();
         this.getContacts();
         this.getTransactions();
+        this.getGroups();
     }
 
     private void contactDetailsReceived(HashMap response) {
@@ -208,5 +223,17 @@ public class MainActivity extends AppCompatActivity implements AsyncRequestListe
         this.transactions = (ArrayList<Transaction>) response.get("transactions");
         Toast.makeText(getApplicationContext(), "User " + this.user.getName() + " has " +
                 ((Integer) this.transactions.size()).toString() + " transactions", Toast.LENGTH_LONG).show();
+    }
+
+    private void groupsReceived(HashMap response) {
+        this.groups = (ArrayList<Group>) response.get("groups");
+        Toast.makeText(getApplicationContext(), "User " + this.user.getName() + " has " +
+                ((Integer) this.groups.size()).toString() + " groups", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        LoginManager.getInstance().logOut();
+        super.onDestroy();
     }
 }
