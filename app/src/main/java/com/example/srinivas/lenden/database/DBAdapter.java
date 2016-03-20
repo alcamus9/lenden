@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.widget.Toast;
 
 import com.example.srinivas.lenden.objects.User;
 
@@ -19,23 +18,24 @@ import java.util.Map;
  * Created by sushantc on 3/5/16.
  */
 
-
-
 public class DBAdapter {
     DbHelper helper;
+    public UserDBHelper userHelper;
 
     public DBAdapter(Context context)
     {
         helper=new DbHelper(context);
+        this.userHelper = new UserDBHelper(this, context);
+        this.userHelper.initUsersDataBase();
     }
 
     public long insertData(String name, String password)
     {
         SQLiteDatabase db=helper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(DbHelper.NAME, name);
-        contentValues.put(DbHelper.PASSWORD, password);
-        long id= db.insert(DbHelper.USERS_TABLE_NAME,null,contentValues);
+        contentValues.put(DbHelper.USER_DATA.NAME, name);
+        contentValues.put(DbHelper.USER_DATA.PASSWORD, password);
+        long id= db.insert(DbHelper.USER_DATA.TABLE_NAME,null,contentValues);
         return id;
     }
 
@@ -51,48 +51,93 @@ public class DBAdapter {
         return value;
     }
 
+
+    private ArrayList<Long> stringToLongArray(String s) {
+        if(s.equals("")){
+            return new ArrayList<Long>();
+        }
+        String[] strArray = s.split(",");
+        ArrayList<Long> list = new ArrayList<Long>();
+        for(String str: strArray) {
+            list.add(Long.parseLong(str));
+        }
+        return list;
+    }
+
     public void insertUser(User u) {
         SQLiteDatabase db=helper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(DbHelper.NAME, u.getName());
-        contentValues.put(DbHelper.PASSWORD, u.getPassword());
-        contentValues.put(DbHelper.USER_NAME, u.get_user_name());
-        contentValues.put(DbHelper.PASSWORD, u.getEmail());
-        contentValues.put(DbHelper.NAME, u.getPhone_number());
-        contentValues.put(DbHelper.PASSWORD, u.getFb_profile_id());
-        contentValues.put(DbHelper.NAME, this.createCommaSeparatedString(u.getContacts()));
-        contentValues.put(DbHelper.NAME, this.createCommaSeparatedString(u.getGroups()));
-        Long id= db.insert(DbHelper.USERS_TABLE_NAME,null,contentValues);
+        contentValues.put(DbHelper.USER_DATA.ID, u.getId());
+        contentValues.put(DbHelper.USER_DATA.NAME, u.getName());
+        contentValues.put(DbHelper.USER_DATA.PASSWORD, u.getPassword());
+        contentValues.put(DbHelper.USER_DATA.USER_NAME, u.get_user_name());
+        contentValues.put(DbHelper.USER_DATA.EMAIL_ID, u.getEmail());
+        contentValues.put(DbHelper.USER_DATA.PHONE_NUMBER, u.getPhone_number());
+        contentValues.put(DbHelper.USER_DATA.FB_PROFILE_ID, u.getFb_profile_id());
+        contentValues.put(DbHelper.USER_DATA.CONTACTS, this.createCommaSeparatedString(u.getContacts()));
+        contentValues.put(DbHelper.USER_DATA.GROUPS, this.createCommaSeparatedString(u.getGroups()));
+        Long id= db.insert(DbHelper.USER_DATA.TABLE_NAME, null, contentValues);
         return;
     }
+
+    private User getUserFromCursor(Cursor cursor) {
+        int index1=cursor.getColumnIndex(DbHelper.USER_DATA.ID);
+        Long id=cursor.getLong(index1);
+        String name = cursor.getString(cursor.getColumnIndex(DbHelper.USER_DATA.NAME));
+        String password = cursor.getString(cursor.getColumnIndex(DbHelper.USER_DATA.PASSWORD));
+        String user_name = cursor.getString(cursor.getColumnIndex(DbHelper.USER_DATA.USER_NAME));
+        String email_id = cursor.getString(cursor.getColumnIndex(DbHelper.USER_DATA.EMAIL_ID));
+        String fb_profile_id = cursor.getString(cursor.getColumnIndex(DbHelper.USER_DATA.FB_PROFILE_ID));
+        String phone_number = cursor.getString(cursor.getColumnIndex(DbHelper.USER_DATA.PHONE_NUMBER));
+        ArrayList<Long> contacts = this.stringToLongArray(cursor.getString(cursor.getColumnIndex(DbHelper.USER_DATA.CONTACTS)));
+        ArrayList<Long> groups = this.stringToLongArray(cursor.getString(cursor.getColumnIndex(DbHelper.USER_DATA.GROUPS)));
+        return new User(id, user_name, password, name, email_id, phone_number, fb_profile_id, contacts, groups);
+    }
+
 
     public ArrayList<User> getAllUsers() {
         ArrayList<User> returnList = new ArrayList<User>();
         SQLiteDatabase db= helper.getReadableDatabase();
 
-        String[] columns= {DbHelper.ID, DbHelper.NAME, DbHelper.PASSWORD};
-        Cursor cursor=db.query(DbHelper.USERS_TABLE_NAME, null, null, null, null, null, null);
+        String[] columns= {DbHelper.USER_DATA.ID, DbHelper.USER_DATA.NAME, DbHelper.USER_DATA.PASSWORD};
+        Cursor cursor=db.query(DbHelper.USER_DATA.TABLE_NAME, null, null, null, null, null, null);
         // last 5 nulls were for selection, selectionArgs, groubBy, having, orderBy
-        StringBuffer buffer = new StringBuffer();
         while(cursor.moveToNext())
         {
-            int index1=cursor.getColumnIndex(DbHelper.ID);
-            Long id=cursor.getLong(index1);
-            String name = cursor.getString(cursor.getColumnIndex(DbHelper.NAME));
-            String password = cursor.getString(cursor.getColumnIndex(DbHelper.PASSWORD));
-            String user_name = cursor.getString(cursor.getColumnIndex(DbHelper.USER_NAME));
-            String email_id = cursor.getString(cursor.getColumnIndex(DbHelper.EMAIL_ID));
-            String fb_profile_id = cursor.getString(cursor.getColumnIndex(DbHelper.FB_PROFILE_ID));
-            String phone_number = cursor.getString(cursor.getColumnIndex(DbHelper.PHONE_NUMBER));
-            String ContactsString = cursor.getString(cursor.getColumnIndex(DbHelper.CONTACTS));
-            String GroupsString = cursor.getString(cursor.getColumnIndex(DbHelper.GROUPS));
-            User u = new User(id, user_name, password, name, email_id, phone_number, fb_profile_id, null, null);
-            returnList.add(u);
+            returnList.add(this.getUserFromCursor(cursor));
         }
         return returnList;
     }
 
-    public void getUsers(HashMap<String, String> map) {
+    public ArrayList<User> getAllGroups() {
+        ArrayList<User> returnList = new ArrayList<User>();
+        SQLiteDatabase db= helper.getReadableDatabase();
+
+        String[] columns= {DbHelper.USER_DATA.ID, DbHelper.USER_DATA.NAME, DbHelper.USER_DATA.PASSWORD};
+        Cursor cursor=db.query(DbHelper.USER_DATA.TABLE_NAME, null, null, null, null, null, null);
+        // last 5 nulls were for selection, selectionArgs, groubBy, having, orderBy
+        while(cursor.moveToNext())
+        {
+            returnList.add(this.getUserFromCursor(cursor));
+        }
+        return returnList;
+    }
+
+    public ArrayList<User> getAllTransactions() {
+        ArrayList<User> returnList = new ArrayList<User>();
+        SQLiteDatabase db= helper.getReadableDatabase();
+
+        String[] columns= {DbHelper.USER_DATA.ID, DbHelper.USER_DATA.NAME, DbHelper.USER_DATA.PASSWORD};
+        Cursor cursor=db.query(DbHelper.USER_DATA.TABLE_NAME, null, null, null, null, null, null);
+        // last 5 nulls were for selection, selectionArgs, groubBy, having, orderBy
+        while(cursor.moveToNext())
+        {
+            returnList.add(this.getUserFromCursor(cursor));
+        }
+        return returnList;
+    }
+
+    public ArrayList<User> getUsers(HashMap<String, String> map) {
         SQLiteDatabase db= helper.getReadableDatabase();
         String whereClause = " ";
         ArrayList<String> whereArgs = new ArrayList<>();
@@ -111,18 +156,14 @@ public class DBAdapter {
         whereArgs.toArray(arr);
 
 
-        Cursor cursor=db.query(DbHelper.USERS_TABLE_NAME, null, whereClause, arr, null, null, null);
+        Cursor cursor=db.query(DbHelper.USER_DATA.TABLE_NAME, null, whereClause, arr, null, null, null);
         // last 5 nulls were for selection, selectionArgs, groubBy, having, orderBy
-        StringBuffer buffer = new StringBuffer();
+        ArrayList<User> usersList = new ArrayList<User>();
         while(cursor.moveToNext())
         {
-            int index2=cursor.getColumnIndex(DbHelper.NAME);
-            String personName = cursor.getString(index2);
-            int index3 = cursor.getColumnIndex(DbHelper.PASSWORD);
-            String password = cursor.getString(index3);
-            buffer.append(personName+" "+password+"\n");
+            usersList.add(this.getUserFromCursor(cursor));
         }
-
+        return usersList;
     }
 
     public void insertUsers(ArrayList<User> users) {
@@ -133,18 +174,17 @@ public class DBAdapter {
 
     public String getData(String name)
     {
-        // select name, password from MYTABLE where name = 'sri'
         SQLiteDatabase db= helper.getWritableDatabase();
 
-        String[] columns= {DbHelper.NAME, DbHelper.PASSWORD};
-        Cursor cursor=db.query(DbHelper.USERS_TABLE_NAME, columns, DbHelper.NAME+" ='"+name+"'", null, null, null, null);
+        String[] columns= {DbHelper.USER_DATA.NAME, DbHelper.USER_DATA.PASSWORD};
+        Cursor cursor=db.query(DbHelper.USER_DATA.TABLE_NAME, columns, DbHelper.USER_DATA.NAME+" ='"+name+"'", null, null, null, null);
         // last 5 nulls were for selection, selectionArgs, groubBy, having, orderBy
         StringBuffer buffer = new StringBuffer();
         while(cursor.moveToNext())
         {
-            int index2=cursor.getColumnIndex(DbHelper.NAME);
+            int index2=cursor.getColumnIndex(DbHelper.USER_DATA.NAME);
             String personName = cursor.getString(index2);
-            int index3=cursor.getColumnIndex(DbHelper.PASSWORD);
+            int index3=cursor.getColumnIndex(DbHelper.USER_DATA.PASSWORD);
             String password = cursor.getString(index3);
             buffer.append(personName+" "+password+"\n");
         }
@@ -155,69 +195,104 @@ public class DBAdapter {
     {
         SQLiteDatabase db= helper.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(DbHelper.NAME, newName);
-        String whereClause=DbHelper.NAME+"=?";
+        contentValues.put(DbHelper.USER_DATA.NAME, newName);
+        String whereClause= DbHelper.USER_DATA.NAME+"=?";
         String[] whereArgs={oldName};
-        int count = db.update(DbHelper.USERS_TABLE_NAME,contentValues, whereClause, whereArgs);
+        int count = db.update(DbHelper.USER_DATA.TABLE_NAME,contentValues, whereClause, whereArgs);
         return count;
     }
 
     public int deleteRow(String nameToDel)
     {
         SQLiteDatabase db= helper.getWritableDatabase();
-        String whereClause=DbHelper.NAME+"=?";
+        String whereClause= DbHelper.USER_DATA.NAME+"=?";
         String[] whereArgs={nameToDel};
-        int count = db.delete(DbHelper.USERS_TABLE_NAME,whereClause, whereArgs);
+        int count = db.delete(DbHelper.USER_DATA.TABLE_NAME,whereClause, whereArgs);
         return count;
     }
 
     static class DbHelper extends SQLiteOpenHelper { //static because of concept of least privilege, nonstatic also fine (static inner class can only access the static fields of outer class.)
 
         private static final String DATABASE_NAME = "lenden";
-        private static final String USERS_TABLE_NAME = "USERS";
-        private static final int DATABASE_VERSION = 8;
-        private static final String ID = "id";
-        private static final String NAME = "name";
-        private static final String PASSWORD = "password";
-        private static final String USER_NAME = "user_name";
-        private static final String CONTACTS = "contacts";
-        private static final String GROUPS = "groups";
-        private static final String FB_PROFILE_ID = "fb_profile_id";
-        private static final String EMAIL_ID = "email_id";
-        private static final String PHONE_NUMBER = "phone_number";
+        private static final int DATABASE_VERSION = 14;
         private static final String VARC = " VARCHAR(255), ";
-        private static final String CREATE_TABLE = "CREATE TABLE " + USERS_TABLE_NAME + " (" + ID + " LONG PRIMARY KEY, "
-                + NAME + " VARCHAR(255), " + PASSWORD + VARC + USER_NAME + VARC + CONTACTS + VARC + GROUPS + VARC + FB_PROFILE_ID + VARC + EMAIL_ID + VARC + PHONE_NUMBER + " VARCHAR(20));";
-        private static final String DROP_TABLE = "DROP TABLE IF EXISTS " + USERS_TABLE_NAME;
+
+        static class USER_DATA {
+            private static final String TABLE_NAME = "USERS";
+            private static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
+
+            private static final String ID = "id";
+            private static final String NAME = "name";
+            private static final String PASSWORD = "password";
+            private static final String USER_NAME = "user_name";
+            private static final String CONTACTS = "contacts";
+            private static final String GROUPS = "groups";
+            private static final String FB_PROFILE_ID = "fb_profile_id";
+            private static final String EMAIL_ID = "email_id";
+            private static final String PHONE_NUMBER = "phone_number";
+
+            private static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" + ID + " LONG PRIMARY KEY, "
+                    + NAME + " VARCHAR(255), " + PASSWORD + VARC + USER_NAME + VARC + CONTACTS + VARC + GROUPS + VARC + FB_PROFILE_ID + VARC + EMAIL_ID + VARC + PHONE_NUMBER + " VARCHAR(20));";
+        }
+
+        static class GROUP_DATA {
+            private static final String TABLE_NAME = "GROUPS";
+            private static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
+
+            private static final String ID = "id";
+            private static final String NAME = "name";
+            private static final String USERS = "users";
+            private static final String BILLS = "bills";
+
+            private static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" + ID + " LONG PRIMARY KEY, "
+                    + NAME + VARC + BILLS + VARC + USERS + " VARCHAR(255));";
+        }
+
+        static class TRANSACTION_DATA {
+            private static final String TABLE_NAME = "TRANSACTIONS";
+            private static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME;
+
+            private static final String ID = "id";
+            private static final String STATUS = "status";
+            private static final String DESCRIPTION = "description";
+            private static final String SOURCE_ID = "source_id";
+            private static final String DEST_ID = "dest_id";
+            private static final String AMOUNT = "amount";
+
+            private static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " (" + ID + " LONG PRIMARY KEY, "
+                    + DESCRIPTION + VARC + STATUS + VARC + SOURCE_ID + " LONG, " + DEST_ID + " LONG, " + AMOUNT + " VARCHAR(255));";
+        }
 
         private Context context;
 
         public DbHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
             this.context = context;
-            Toast.makeText(context,  "constructor called", Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onCreate(SQLiteDatabase db) {
             // CREATE TABLE TABLE1 (-id INTEGER PRIMARY KEY AUTOINCREMENT, Name VARCHAR(255));
-
             try {
-                db.execSQL(CREATE_TABLE);
-                Toast.makeText(context,  "onCreate called", Toast.LENGTH_SHORT).show();
+                db.execSQL(USER_DATA.CREATE_TABLE);
+                db.execSQL(GROUP_DATA.CREATE_TABLE);
+                db.execSQL(TRANSACTION_DATA.CREATE_TABLE);
+                System.out.println("Tables created");
             } catch (SQLException e) {
-                Toast.makeText(context,  " " + e, Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
             }
         }
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             try {
-                Toast.makeText(context,  "onUpgrade called", Toast.LENGTH_SHORT).show();
-                db.execSQL(DROP_TABLE); //or add cols, or back it up to secondary db or cloud..
+                System.out.println("Upgrade of table called. Deleting data and creating copy.");
+                db.execSQL(USER_DATA.DROP_TABLE); //or add cols, or back it up to secondary db or cloud..
+                db.execSQL(GROUP_DATA.DROP_TABLE);
+                db.execSQL(TRANSACTION_DATA.DROP_TABLE);
                 onCreate(db);
             } catch (SQLException e) {
-                Toast.makeText(context,  " " + e, Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
             }
         }
 

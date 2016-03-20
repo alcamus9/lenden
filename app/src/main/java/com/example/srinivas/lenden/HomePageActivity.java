@@ -149,11 +149,6 @@ public class HomePageActivity extends AppCompatActivity implements AsyncRequestL
                 android.R.layout.simple_list_item_activated_1,
                 transactions);
         feedView.setAdapter(feedAdapter);
-
-/*        ArrayAdapter reminderAdapter = ArrayAdapter.createFromResource(this,
-                R.array.reminders,
-                android.R.layout.simple_list_item_activated_1);
-        reminderView.setAdapter(reminderAdapter);*/
     }
 
     private ArrayList<String> getTransactionsSummary() {
