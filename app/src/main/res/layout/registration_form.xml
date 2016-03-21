@@ -88,41 +88,6 @@
                 android:inputType="textEmailAddress"
                 android:textSize="12sp" />
 
-            <!-- <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/reg_mappid"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_margin="10dp"
-                    android:layout_weight="3"
-                    android:hint="MAPP id"
-                    android:textAlignment="textEnd"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="1"
-                    android:text="\@MAPP" />
-
-            </LinearLayout> -->
-
-            <EditText
-                android:id="@+id/iin_number"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:hint="Aadhar Card Number"
-                android:textSize="12sp" />
-
             <Button
                 android:id="@+id/reg_submit_btn"
                 android:layout_width="190dp"

@@ -63,6 +63,11 @@
             android:label="@string/title_activity_add_bill"
             android:windowSoftInputMode="adjustResize"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+        <activity
+            android:name="com.example.srinivas.lenden.AddContactsActivity"
+            android:label="Add Contacts"
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
     </application>
 
 </manifest>

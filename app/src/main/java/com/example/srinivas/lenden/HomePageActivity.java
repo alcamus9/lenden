@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.srinivas.lenden.database.DBAdapter;
 import com.example.srinivas.lenden.dbrequests.ContactDetailsRequest;
 import com.example.srinivas.lenden.dbrequests.GroupDetailRequest;
 import com.example.srinivas.lenden.dbrequests.TransactionsRequest;
@@ -35,20 +36,25 @@ public class HomePageActivity extends AppCompatActivity implements AsyncRequestL
     private Long userId;
     private User user;
     private ArrayList<User> contacts;
+    private ArrayList<User> otherUsers;
     private ArrayList<Transaction> transactions;
     private ArrayList<Group> groups;
     private HashMap<Long, User> user_map;
     NumberFormat amtFormatter = new DecimalFormat("#0.00");
+    private DBAdapter dbAdapter;
+    private static final int CONTACTS_ACTIVITY_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        dbAdapter = new DBAdapter(this);
         setContentView(R.layout.home_page_activity);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         this.userId = getIntent().getLongExtra("userId", 0);
         this.getUserDetails();
+        this.otherUsers = dbAdapter.userHelper.getOtherUsers();
     }
 
     @Override
@@ -60,13 +66,32 @@ public class HomePageActivity extends AppCompatActivity implements AsyncRequestL
 
     public void open_pay_window(View view) {
         Intent pay_activity = new Intent(this, PayReceiveActivity.class);
+        pay_activity.putExtra("other_users", this.otherUsers);
+        pay_activity.putExtra("user", this.user);
+        pay_activity.putExtra("contacts", this.contacts);
         startActivity(pay_activity);
     }
 
     public void open_contacts_window(View view) {
         Intent contacts_activity = new Intent(this, ContactsActivity.class);
         contacts_activity.putExtra("contacts", this.contacts);
-        startActivity(contacts_activity);
+        contacts_activity.putExtra("otherUsers", this.otherUsers);
+        startActivityForResult(contacts_activity, CONTACTS_ACTIVITY_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == CONTACTS_ACTIVITY_CODE) {
+            if(resultCode == RESULT_OK) {
+                Object contacts = data.getSerializableExtra("contacts");
+                Object otherUsers = data.getSerializableExtra("otherUsers");
+
+                if(contacts != null && otherUsers != null) {
+                    this.contacts = (ArrayList<User>) contacts;
+                    this.otherUsers = (ArrayList<User>) otherUsers;
+                }
+            }
+        }
     }
 
     public void open_groups_window(View view) {
@@ -180,5 +205,6 @@ public class HomePageActivity extends AppCompatActivity implements AsyncRequestL
         }
         this.user_map = user_map;
     }
+
 
 }

@@ -1,6 +1,7 @@
 package com.example.srinivas.lenden.objects;
 
 import com.example.srinivas.lenden.Utilities;
+import com.example.srinivas.lenden.database.UserDBHelper;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -150,4 +151,9 @@ public class User implements Serializable {
         this.email = email;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        User other = (User) o;
+        return ((Long)this.getId()).equals((Long)other.getId());
+    }
 }

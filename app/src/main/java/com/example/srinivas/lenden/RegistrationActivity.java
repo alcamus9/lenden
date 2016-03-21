@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.srinivas.lenden.database.DBAdapter;
 import com.example.srinivas.lenden.objects.User;
 import com.example.srinivas.testlogin.R;
 
@@ -24,11 +25,13 @@ public class RegistrationActivity extends Activity {
     EditText email_id_view;
 
     String error_message;
+    DBAdapter dbAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registration_form);
+        dbAdapter = new DBAdapter(this);
 
         this.password_view = (EditText) findViewById(R.id.reg_password);
         this.confirm_pwd_view = (EditText) findViewById(R.id.reg_password_confirm);
@@ -53,6 +56,7 @@ public class RegistrationActivity extends Activity {
             User u = new User(this.user_name_view.getText().toString(), this.password_view.getText().toString(),
                               this.name_view.getText().toString(), this.phone_num_view.getText().toString(),
                               this.email_id_view.getText().toString());
+            dbAdapter.insertUser(u);
             Intent home_page = new Intent(this, HomePageActivity.class);
             home_page.putExtra("userId", u.getId());
             startActivity(home_page);

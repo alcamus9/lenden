@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -121,6 +122,11 @@ public class UserDBHelper {
         this.populateMap();
     }
 
+    public void refreshUsers() {
+        this.users_list = dbAdapter.getAllUsers();
+        this.populateMap();
+    }
+
     private void populateMap() {
         this.users_map = new HashMap<Long, User>();
         for (int i=0; i < this.users_list.size(); i++) {
@@ -155,6 +161,17 @@ public class UserDBHelper {
                 }
         }
         return null;
+    }
+
+    public ArrayList<User> getOtherUsers() {
+        //Returns users with a reduced set of details
+        ArrayList<User> reducedUsers = new ArrayList<User>();
+        for(int i=0; i < this.users_list.size(); i++) {
+            User u = this.users_list.get(i);
+            reducedUsers.add(new User(u.getId(), u.get_user_name(), u.getName(),
+                     u.getEmail(), u.getPhone_number()));
+        }
+        return reducedUsers;
     }
 
     public User fetchUser(Long id) {

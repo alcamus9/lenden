@@ -1,9 +1,12 @@
 package com.example.srinivas.lenden;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -21,7 +24,10 @@ import java.util.ArrayList;
  */
 public class ContactsActivity extends AppCompatActivity {
     ArrayList<User> contactsUsers;
+    ArrayList<User> otherUsers;
     ListView contacts_list_view;
+    private static final int ADD_CONTACT_CODE = 1;
+    ArrayAdapter contact_list_adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,13 +35,23 @@ public class ContactsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_contacts);
 
         this.contactsUsers = (ArrayList<User>) getIntent().getSerializableExtra("contacts");
+        this.otherUsers = (ArrayList<User>) getIntent().getSerializableExtra("otherUsers");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         this.contacts_list_view = (ListView) findViewById(R.id.contacts_view);
-        ArrayAdapter adapter = new ContactArrayAdapter(this.contactsUsers);
-        contacts_list_view.setAdapter(adapter);
+        this.contact_list_adapter = new ContactArrayAdapter(this.contactsUsers);
+        contacts_list_view.setAdapter(this.contact_list_adapter);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent resultIntent = new Intent();
+        resultIntent.putExtra("contacts", this.contactsUsers);
+        resultIntent.putExtra("otherUsers", this.otherUsers);
+        setResult(RESULT_OK, resultIntent);
+        finish();
     }
 
     @Override
@@ -43,6 +59,25 @@ public class ContactsActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_home, menu);
         return true;
+    }
+
+    public void addContact(MenuItem item) {
+        Intent addContactIntent = new Intent(this, AddContactsActivity.class);
+        // this.otherUsers is not the right thing to use. It has to be edited.
+        addContactIntent.putExtra("otherUsers", this.otherUsers);
+        startActivityForResult(addContactIntent, ADD_CONTACT_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == ADD_CONTACT_CODE) {
+            if(resultCode == RESULT_OK) {
+                User u = (User) data.getSerializableExtra("user");
+                this.contactsUsers.add(u);
+                this.otherUsers.remove(u);
+                this.contact_list_adapter.notifyDataSetChanged();
+            }
+        }
     }
 
     private class ContactArrayAdapter extends  ArrayAdapter {
