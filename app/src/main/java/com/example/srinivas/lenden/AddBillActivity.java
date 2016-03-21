@@ -29,14 +29,16 @@ import java.util.List;
 import java.util.Map;
 
 public class AddBillActivity extends AppCompatActivity {
-    Map<String, Double> surplusmap;
+    HashMap<User, Double> surplusmap;
     double amount;
     Bill billfinal;
     List<String> billparticipants;
     private RecyclerView billSpecRCView;
     private BillSpecAdapter billSpecAdapter;
     ArrayList<User> receivedMembers;
-
+    Bill receivedBill;
+    ArrayList<Group> tGroups;
+    Group receivedGroup;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +46,10 @@ public class AddBillActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        receivedMembers = (ArrayList<User>) getIntent().getSerializableExtra("listofmembers");
+        receivedGroup=(Group) getIntent().getSerializableExtra("keyfornewgroup");
+        tGroups = (ArrayList<Group>) getIntent().getSerializableExtra("travelingGroups");
+        receivedBill= (Bill) getIntent().getSerializableExtra("latestbill");
+        receivedMembers = receivedGroup.getUserObjects();
 
         billSpecRCView = (RecyclerView) findViewById(R.id.billspecrcview);
         billSpecAdapter = new BillSpecAdapter(this, getData());
@@ -56,12 +61,13 @@ public class AddBillActivity extends AppCompatActivity {
     public List<InfoBillSpec> getData() {
         List<InfoBillSpec> data = new ArrayList<>();
 
-        for (int i = 0; i < receivedMembers.size(); i++) {
+        for (int i = 0; i < receivedGroup.getUserObjects().size(); i++) {
             InfoBillSpec current = new InfoBillSpec();
-            current.memberName = receivedMembers.get(i).getName();
+            current.memberName = receivedGroup.getUserObjects().get(i).getName();
             current.paidAmt = 0.00;
             current.owedAmt = 0.00;
             current.includeMember = true;
+            //current.user = receivedMembers.get(i);
             data.add(current);
         }
 
@@ -82,24 +88,21 @@ public class AddBillActivity extends AppCompatActivity {
                 if (!vh.include.isChecked()) {
                     vh.owed.setText("0.0");
                     vh.paid.setText("0.0");
-                    surplusmap.put(vh.name.toString(), 0.0);
+                    surplusmap.put(receivedMembers.get(i), 0.0);
                 } else {
-                    billparticipants.add(vh.name.toString());
-                    surplusmap.put(vh.name.toString(), Double.parseDouble(vh.paid.toString()));
+                    billparticipants.add(vh.name.getText().toString());
+                    surplusmap.put(receivedMembers.get(i), Double.parseDouble(vh.paid.getText().toString())-Double.parseDouble(vh.owed.getText().toString())  );
                 }
 
-                totalAmountPaid = totalAmountPaid + Double.parseDouble(vh.paid.toString());
-                totalAmountOwed = totalAmountPaid + Double.parseDouble(vh.owed.toString());
+                totalAmountPaid = totalAmountPaid + Double.parseDouble(vh.paid.getText().toString());
+                totalAmountOwed = totalAmountPaid + Double.parseDouble(vh.owed.getText().toString());
             }
 
             if (totalAmountPaid != totalAmountOwed) {
                 Toast.makeText(this, "Recheck data entered. Total amount paid and Total amount owed should be equal.", Toast.LENGTH_LONG).show();
             } else {
-                amount = totalAmountOwed;
-
+                amount = totalAmountPaid;
             }
-
-
         }
 
         if (checkEqualSplitBox.isChecked()) {
@@ -109,13 +112,34 @@ public class AddBillActivity extends AppCompatActivity {
                 if (!vh.include.isChecked()) {
                     vh.owed.setText("0.0");
                     vh.paid.setText("0.0");
+                    surplusmap.put(receivedMembers.get(i), 0.0);
                 } else {
-                    //totalAmountPaid = totalAmountPaid + Double.parseDouble(vh.paid.toString());
+                    billparticipants.add(vh.name.getText().toString());
+                    totalAmountPaid = totalAmountPaid + Double.parseDouble(vh.paid.getText().toString());
                 }
-
             }
 
+            amount=totalAmountPaid;
+            double amountOwedByEachParticipant=amount/billparticipants.size();
+            for (int i = 0; i < receivedMembers.size(); i++) {
+                BillSpecAdapter.BillSpecViewHolder vh = (BillSpecAdapter.BillSpecViewHolder) billSpecRCView.findViewHolderForLayoutPosition(i);
+                if (vh.include.isChecked()){surplusmap.put(receivedMembers.get(i), Double.parseDouble(vh.paid.getText().toString())-amountOwedByEachParticipant);}
+                else ;
+            }
         }
+
+        //add the calculated surplus map as the "surpluses" element of the bill
+        receivedBill.setSurpluses(surplusmap);
+        receivedGroup.addBill(receivedBill);
+
+
+        Intent i = new Intent(this, GroupActivity.class);
+        i.putExtra("travelingGroups",tGroups);
+        i.putExtra("source","fromAddBill");
+        //i.putExtra("surpluses", surplusmap);
+        i.putExtra("recdgrp",receivedGroup);
+        startActivity(i);
+
 
     }
 

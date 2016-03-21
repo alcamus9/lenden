@@ -61,7 +61,11 @@
         <activity
             android:name="com.example.srinivas.lenden.AddBillActivity"
             android:label="@string/title_activity_add_bill"
-            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.example.srinivas.lenden.SplitterActivity"
+            android:label="@string/title_activity_splitter"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
         <activity
             android:name="com.example.srinivas.lenden.AddContactsActivity"

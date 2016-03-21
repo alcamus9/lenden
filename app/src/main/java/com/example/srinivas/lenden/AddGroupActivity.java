@@ -77,6 +77,7 @@ public class AddGroupActivity extends AppCompatActivity {
         Intent send = new Intent(this, GroupActivity.class);
         send.putExtra("mykey", newGroup);
         send.putExtra("travelingGroups",tGroups);
+        send.putExtra("source","fromAddGroup");
         //send.putExtra("currUser", HomePageActivity.currentUser);
         startActivityForResult(send, 1);
     }

@@ -26,19 +26,23 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:layout_marginBottom="40dp">
+        android:gravity="center_horizontal">
         <TextView
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
-             android:text="Split bill equally?"
-            />
+             android:text="Split bill equally?"/>
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
             android:id="@+id/mycheck"/>
     </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="If this box is checked, the -Owed- column will be ignored and we will assume that all group members that are included in this bill owe equal parts towards the total bill amount."
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="40dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -60,7 +64,7 @@
     <TextView
         android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:text="Include?"/>
+        android:text="Include member?"/>
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
