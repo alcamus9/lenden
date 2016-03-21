@@ -2,7 +2,7 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
@@ -20,53 +20,19 @@
             app:titleTextColor="#fff"/>
 
     </android.support.design.widget.AppBarLayout>
-    <!-- <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/my_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="#13b586"
-        android:elevation="4dp"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" /> -->
 
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="?android:attr/actionBarSize">
+        android:layout_height="fill_parent"
+        android:layout_marginTop="?android:attr/actionBarSize"
+        android:background="#e8e8e7">
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="match_parent"
+            android:layout_height="fill_parent"
             android:background="#e8e8e7"
             android:orientation="vertical">
-
-           <!-- <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="48dp"
-                android:layout_alignParentTop="true"
-                android:background="#13b586"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="10dp"
-                    android:background="@drawable/app_icon" />
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal|center_vertical"
-                    android:layout_marginLeft="25dp"
-                    android:text="LenDen"
-                    android:textColor="#ffffff"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout> -->
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -168,28 +134,6 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="3dp"
                     android:textSize="20dp"/>
-
-                <Button
-                    android:layout_width="190dp"
-                    android:layout_height="38dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="3dp"
-                    android:background="#eb543b"
-                    android:text="Login with google+"
-                    android:textColor="#fff"
-                    android:textSize="13dp" />
-
-                <Button
-                    android:layout_width="190dp"
-                    android:layout_height="38dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="3dp"
-                    android:background="#eb543b"
-                    android:text="Go to RecyclerView Activity"
-                    android:textColor="#fff"
-                    android:textSize="13dp"
-                    android:onClick="gotorcview"/>
-
 
             </LinearLayout>
 

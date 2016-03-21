@@ -14,7 +14,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="#26a69a"
+            android:background="#13b586"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:titleTextColor="#fff"/>
 

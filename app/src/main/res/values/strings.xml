@@ -48,9 +48,9 @@
         <item>2400</item>
     </string-array>
     <string name="title_activity_recycler">RecyclerActivity</string>
-    <string name="title_activity_group">GroupActivity</string>
-    <string name="title_activity_add_group">AddGroupActivity</string>
-    <string name="title_activity_add_bill">AddBillActivity</string>
+    <string name="title_activity_group">Groups</string>
+    <string name="title_activity_add_group">Add Group</string>
+    <string name="title_activity_add_bill">Add Bill</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

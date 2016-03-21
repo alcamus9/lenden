@@ -56,7 +56,7 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name="com.example.srinivas.lenden.GroupActivity"
-            android:label="@string/title_activity_group"
+            android:label="Edit Group"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name="com.example.srinivas.lenden.AddBillActivity"
