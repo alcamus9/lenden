@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.srinivas.lenden.Info;
+import com.example.srinivas.lenden.objects.User;
 import com.example.srinivas.testlogin.R;
 import java.util.Collections;
 import java.util.List;
@@ -75,6 +76,10 @@ public class BillSpecAdapter extends RecyclerView.Adapter<BillSpecAdapter.BillSp
         holder.owed.setText(Double.toString(current.owedAmt));
         holder.include.setChecked(current.includeMember);
     }
+
+   // public User getUser(int position) {
+   //     return dataBillSpec.get(position).user;
+   // }
 
     @Override
     public int getItemCount () {

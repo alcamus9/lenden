@@ -1,9 +1,10 @@
 package com.example.srinivas.lenden.objects;
 
-import com.example.srinivas.lenden.Utilities;
+import com.example.srinivas.lenden.utilities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by srinivas on 3/3/2016.
@@ -19,7 +20,7 @@ public class User implements Serializable {
     private String fb_profile_id;
     private String phone_number;
     private String image_path;
-
+    public HashMap<User,Double> groupBalances;
     public String getImage_path() {
         return image_path;
     }
@@ -138,11 +139,12 @@ public class User implements Serializable {
 
     public User(String name) {//sushant created this to make "add group member" functionality working in GroupActivity. will change later.
         this.name=name;
+        this.id = utilities.randBetween(1, 100000000);
     }
 
     public User(String user_name, String password, String name, String phone_number,
                 String email){
-        this.id= Utilities.randBetween(1, 100000000);
+        this.id= utilities.randBetween(1, 100000000);
         this.name = name;
         this.password = password;
         this.phone_number = phone_number;
@@ -150,4 +152,18 @@ public class User implements Serializable {
         this.email = email;
     }
 
+    public HashMap<User,Double> getGroupBalances(Group group){
+        return groupBalances;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        User u = (User) o;
+        return ((Long)this.getId()).equals((Long)u.getId());
+    }
+
+    /*@Override
+    public int hashCode() {
+        return ((Long)this.getId()).hashCode();
+    }*/
 }

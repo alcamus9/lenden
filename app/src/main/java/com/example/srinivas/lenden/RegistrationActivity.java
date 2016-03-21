@@ -68,7 +68,7 @@ public class RegistrationActivity extends Activity {
         } else if (this.user_name_view.getText().toString().contains(" ")) {
             this.error_message = "Username cannot contain white space.";
             return false;
-        } else if (!(Utilities.isValidEmail(this.email_id_view.getText().toString()))) {
+        } else if (!(utilities.isValidEmail(this.email_id_view.getText().toString()))) {
             this.error_message = "Email ID not valid";
             return false;
         } else {

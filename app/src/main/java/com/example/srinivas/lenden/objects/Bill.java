@@ -1,9 +1,11 @@
 package com.example.srinivas.lenden.objects;
 
 import com.example.srinivas.lenden.HomePageActivity;
+import com.example.srinivas.lenden.utilities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -12,12 +14,18 @@ import java.util.Map;
 public class Bill implements Serializable {
 
     ArrayList<User> participants;
+    private long id;
     public User currentUser = HomePageActivity.currentUser;
     private double amount;
-    private String description;
+    private String name;
     private Map<Long, Double> contributions;//<user id, contribution>
-    private Map<Long, Double> surpluses; //<user id, surplus>
+    private HashMap<User, Double> surpluses; //<user id, surplus>
 
+
+
+    public String getName() {
+        return name;
+    }
 
     public Map addContributions() {
 
@@ -39,26 +47,19 @@ public class Bill implements Serializable {
         return participants;
     }
 
-    public Bill(String desc, User user) {
-        this.description=desc;
-        this.participants.add(currentUser);
-        this.addParticipants(user);
-        this.addContributions();
-        this.getSurplusesFromContributions();
+    public Bill(String name){
+        this.id=utilities.randBetween(1,100000000);
+        this.name=name;
     }
 
+    public void setSurpluses(HashMap s){
+        this.surpluses=s;
+    }
 
-    public Map getSurplusesFromContributions() {
-
-        for (int i=0; i<participants.size(); i++){
-            long userId=participants.get(i).getId();
-
-            double surplus= contributions.get(userId) - (amount/participants.size());
-            surpluses.put(userId, surplus);
-
-        }
+    public HashMap<User,Double> getSurpluses() {
         return surpluses;
     }
+
 }
 
 

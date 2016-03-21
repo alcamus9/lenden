@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.example.srinivas.lenden.objects.Group;
 import com.example.srinivas.testlogin.R;
@@ -41,14 +42,6 @@ public class GroupsActivity extends AppCompatActivity {
             this.groups = (ArrayList<Group>) getIntent().getSerializableExtra("groups");
         } else {
             this.groups= (ArrayList<Group>) getIntent().getSerializableExtra("travelingGroups");
-            receivedGroup = (Group) getIntent().getSerializableExtra("keyfornewgroup");
-            this.groups.add(receivedGroup);
-
-            //Info newRow = new Info();
-            //newRow.iconId=R.drawable.smile;
-            //newRow.title=newname;
-            //membersListData.add(newRow);
-            //rcAdapter.notifyDataSetChanged();
         }
         //View layout=inflater.inflate(R.layout.activity_recycler, container, false);
 
@@ -87,4 +80,6 @@ public class GroupsActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
 }
