@@ -6,6 +6,7 @@ package com.example.srinivas.lenden.dbrequests;
 
 import android.content.Context;
 
+import com.example.srinivas.lenden.database.DBAdapter;
 import com.example.srinivas.lenden.objects.Transaction;
 import com.example.srinivas.lenden.objects.User;
 import com.example.srinivas.lenden.requests.AsyncRequestListener;
@@ -23,15 +24,17 @@ import java.util.List;
 /**
  * Created by srinivas on 3/19/2016.
  */
-public class ContactDetailsRequest extends UserDetailsRequest implements BaseDBRequest {
+public class ContactDetailsRequest implements BaseDBRequest {
 
     ArrayList<User> contacts;
-    User user;
+    DBAdapter adapter;
+    AsyncRequestListener listener;
+    Context appContext;
 
     public ContactDetailsRequest(AsyncRequestListener listener, Context context) {
         this.listener = listener;
         this.appContext = context;
-        this.init_request();
+        this.adapter = new DBAdapter(this.appContext);
     }
 
     @Override
@@ -47,15 +50,11 @@ public class ContactDetailsRequest extends UserDetailsRequest implements BaseDBR
 
     private void fetch_contacts(ArrayList<Long> contactsList) {
         this.contacts = new ArrayList<User>();
-        Object[] keys = this.user_details_map.keySet().toArray();
+
         for (int j=0; j<contactsList.size(); j++) {
-            for (int i = 0; i < keys.length; i++) {
-                User u = this.user_details_map.get((String) keys[i]);
-                if (u.getId() == contactsList.get(j) ) {
-                    this.contacts.add(new User(u.getId(), u.getName(),
-                             u.get_user_name(), u.getEmail(), u.getPhone_number()));
-                }
-            }
+            User u = this.adapter.userHelper.fetchUser(contactsList.get(j));
+                this.contacts.add(new User(u.getId(), u.getName(),
+                         u.get_user_name(), u.getEmail(), u.getPhone_number()));
         }
     }
 

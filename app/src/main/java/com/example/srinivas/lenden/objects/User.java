@@ -1,6 +1,7 @@
 package com.example.srinivas.lenden.objects;
 
 import com.example.srinivas.lenden.utilities;
+import com.example.srinivas.lenden.database.UserDBHelper;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -162,8 +163,4 @@ public class User implements Serializable {
         return ((Long)this.getId()).equals((Long)u.getId());
     }
 
-    /*@Override
-    public int hashCode() {
-        return ((Long)this.getId()).hashCode();
-    }*/
 }
