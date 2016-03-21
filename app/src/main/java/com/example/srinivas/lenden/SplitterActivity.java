@@ -6,6 +6,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.TextView;
 
 import com.example.srinivas.testlogin.R;
 
@@ -17,6 +18,12 @@ public class SplitterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splitter);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        String s=getIntent().getStringExtra("keyforstring");
+
+        TextView t = (TextView) findViewById(R.id.splitsummary);
+        t.setText(s);
+
 
 
     }

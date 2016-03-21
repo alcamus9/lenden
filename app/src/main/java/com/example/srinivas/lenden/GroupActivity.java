@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -17,6 +18,8 @@ import com.example.srinivas.lenden.objects.Group;
 import com.example.srinivas.lenden.objects.User;
 import com.example.srinivas.testlogin.R;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -56,12 +59,12 @@ public class GroupActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.memberslist);
         rcAdapter= new RCAdapter(this, getMembersListData());
         recyclerView.setAdapter(rcAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new GridLayoutManager(this,3));
 
         recyclerView2 = (RecyclerView) findViewById(R.id.billslist);
         rcAdapter2= new RCAdapter(this, getBillsListData());
         recyclerView2.setAdapter(rcAdapter2);
-        recyclerView2.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView2.setLayoutManager(new GridLayoutManager(this,3));
     }
 
     public List<Info> getMembersListData() {
@@ -143,14 +146,17 @@ public class GroupActivity extends AppCompatActivity {
 
         HashMap<User,Double> balances = new HashMap<>();
         balances=receivedGroup.groupSplit();
-        String myString=" ";
+        String myString="";
         for(int i =0; i<receivedGroup.getUserObjects().size(); i++){
             Double d=balances.get(receivedGroup.getUserObjects().get(i));
-            String bal = d.toString();
+            NumberFormat f=new DecimalFormat("#.##");
+            String bal = f.format(d);
             String user= receivedGroup.getUserObjects().get(i).getName();
-            myString= myString+" "+user+" owes "+bal+" to you ";
+            myString= myString+user+" owes "+bal+" to you \n\n";
         }
-        Toast.makeText(GroupActivity.this, myString, Toast.LENGTH_SHORT).show();
+        Intent i= new Intent(this, SplitterActivity.class);
+        i.putExtra("keyforstring",myString);
+        startActivityForResult(i, 1);
 
     }
 
